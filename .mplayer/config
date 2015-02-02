@@ -1,0 +1,6 @@
+ao=pulse
+vo=vaapi,xv
+double=yes
+#fs = yes
+#hwdec=auto
+subcp=enca:ru:cp1251:utf8

@@ -1,0 +1,35 @@
+"mpc toggle"
+    m:0x18 + c:38
+    Alt+Mod2 + a
+
+"mpc prev"
+    m:0x18 + c:24
+    Alt+Mod2 + q
+
+"mpc next"
+    m:0x18 + c:25
+    Alt+Mod2 + w
+
+"mpc volume +5"
+    m:0x18 + c:111
+    Alt+Mod2 + Up
+
+"mpc volume -5"
+    m:0x18 + c:116
+    Alt+Mod2 + Down
+
+"mpc random"
+    m:0x18 + c:27
+    Alt+Mod2 + r
+
+"mpc single"
+    m:0x18 + c:26
+    Alt+Mod2 + e
+
+"mpc seek +00:00:05"
+    m:0x18 + c:114
+    Alt+Mod2 + Right
+
+"mpc seek -00:00:05"
+    m:0x18 + c:113
+    Alt+Mod2 + Left
