@@ -13,7 +13,7 @@ set clipboard=unnamed
 set clipboard=unnamedplus
 "path of the current file
 set laststatus=2
-set statusline+=%F
+"set statusline+=%F
 set cursorline
 set autoread
 set hlsearch
@@ -33,10 +33,27 @@ let g:zenburn_alternate_Visual=1
 "colorscheme xoria256
 colorscheme zenburn
 
+" statusline
+set statusline=
+set statusline +=%1*\ %n\ %*            "buffer number
+set statusline +=%5*%{&ff}%*            "file format
+set statusline +=%3*%y%*                "file type
+set statusline +=%4*\ %<%F%*            "full path
+set statusline +=%2*%m%*                "modified flag
+set statusline +=%1*%=%5l%*             "current line
+set statusline +=%2*/%L%*               "total lines
+set statusline +=%1*%4v\ %*             "virtual column number
+set statusline +=%2*0x%04B\ %*          "character under cursorline
+hi User1 ctermfg=magenta ctermbg=black
+hi User2 ctermfg=red ctermbg=black
+hi User3 ctermfg=cyan ctermbg=black
+hi User4 ctermfg=green ctermbg=black
+hi User5 ctermfg=yellow ctermbg=black
+
 " plugin indent
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'text']
 let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black   ctermbg=black
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=darkgrey
@@ -46,6 +63,9 @@ set list
 
 set hidden
 set switchbuf=usetab,newtab
+
+" pair brackets color
+highlight MatchParen cterm=bold ctermfg=cyan
 
 "hi SpecialKey ctermbg=red ctermfg=red guibg=red guifg=red
 
@@ -98,6 +118,9 @@ imap <F6> <esc>:bp<cr>i
 nmap <F7> :bn<cr>
 vmap <F7> <esc>:bn<cr>i
 imap <F7> <esc>:bn<cr>i
+
+nnoremap <CR> :noh<CR><CR>
+
 
 " NERDTree
 let g:NERDTreeWinSize=20
