@@ -6,8 +6,8 @@ URxvt*foreground: #C0C0C0
 URxvt*.depth: 32
 URxvt*.buffered: false
 URxvt*.transparent: false
-URxvt*font: xft:DejaVu Sans Mono:pixelsize=18:antialias=true:hinting=true
-URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=18:antialias=true:hinting=true
+URxvt*font: xft: Liberation Mono for Powerline:size=14:antialias=true:hinting=true
+URxvt*boldFont: xft:Liberation Mono for Powerline:bold:size=14:antialias=true:hinting=true
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: false
@@ -46,7 +46,7 @@ URxvt*secondaryScroll: True
 ! цвет переднего плана
 !URxvt.foreground: #f6f3e8
 ! процент "гашения" цвета текста в неактивном окне
-!URxvt.fading: 40  
+!URxvt.fading: 40
 !  уменьшение (-100 .. -1) или увеличение (0 .. 100) яркости прозрачного фона
 !URxvt.shading: 100
 ! Псевдопрозрачность
@@ -62,14 +62,14 @@ URxvt*secondaryScroll: True
 ! цвет основной части скролл-бара
 !!URxvt.troughColor: #1A1A1A
 ! скроллбар
-! расположение скроллбара 
+! расположение скроллбара
 !URxvt.scrollBar_right: false
 !URxvt.scrollBar_floating: true
 ! Мерцание курсора
 !URxvt.cursorBlink: false
 ! включить расширения на perl: основные, парсер регулярных выражений(для подсветки URL)
 !URxvt.perl-ext-common: default,matcher
- 
+
 !URxvt.matcher.button: 1
 ! регексп для ссылок:
 !URxvt.matcher.pattern.0:  (?:https?:\\/\\/|ftp:\\/\\/|news:\\/\\/|mailto:|file:\\/\\/|\\bwww\\.)\n\
@@ -78,12 +78,12 @@ URxvt*secondaryScroll: True
                              \\([a-zA-Z0-9\\x{0410}-\\x{044F}\\-\\@;\\/?:&=%\\$_.+!*\\x27,~#]*\\)| # Allow a pair of matched parentheses\n\
                              [a-zA-Z0-9\\x{0410}-\\x{044F}\\-\\@;\\/?:&=%\\$_+*~]  # exclude some trailing characters (heuristic)\n\
                            )+
- 
+
 ! подчёркивать ссылки
 ! URxvt.underlineURLs: true
 ! браузер для открытия ссылок
 !URxvt.urlLauncher: x-www-browser
- 
+
 ! цвета табов (настройка для прозрачных терминалов)
 ! URxvt.tabbar-fg: 2
 ! URxvt.tabbar-bg: -1

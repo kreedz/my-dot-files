@@ -94,20 +94,23 @@ alias du='du -h -c'
 alias la='ls -A'
 alias lx='ls -lXB'        # sort by extension
 alias lk='ls -lSr'        # sort by size
-alias lt='ls -lt'        # sort by date
+alias lt='ls -ltr'        # sort by date
 alias h='history | grep $1'
 #alias l='ls -CF'
-alias er="trs {en=ru}"
-alias re="trs {ru=en}"
-alias xclip="xclip -selection clip"
-alias nn="nano"
-alias vim="gvim -v"
+alias er='trs {en=ru}'
+alias re='trs {ru=en}'
+alias xclip='xclip -selection clip'
+alias nn='nano'
+alias vim='gvim -v'
+alias music='mpd && mpdcron && ncmpcpp'
 
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+function cl() { cd "$1" && ls; }
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
