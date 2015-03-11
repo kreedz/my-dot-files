@@ -22,6 +22,8 @@ set smartcase
 set fileencodings=utf-8,cp1251,koi8-r,cp866
 set encoding=utf8
 set noerrorbells visualbell t_vb=
+"set fdm=indent
+set nofoldenable
 
 set t_Co=256
 "let g:solarized_termcolors=256
@@ -108,20 +110,37 @@ map <C-n> :NERDTreeToggle<CR>
 nmap <F8> :TagbarToggle<CR>
 
 " AutoComplPop
-let g:acp_enableAtStartup=0
+"let g:acp_enableAtStartup=0
 
 " jedi (python complete)
 let g:jedi#popup_select_first = 0
+let g:jedi#use_tabs_not_buffers = 0
+"let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#show_call_signatures = "2"
+"let g:jedi#show_function_definition = 0
 
 " airline
-let g:airline#extensions#tabline#enabled = 1
-set guifont=Liberation\ Mono\ for\ Powerline\ 14
+set guifont=Liberation\ Mono\ for\ Powerline\ 13
 let g:airline_powerline_fonts = 1
-let g:airline_theme='powerlineish'
+let g:airline_theme='zenburn'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
+function! AirlineInit()
+    let spc = g:airline_symbols.space
+    let g:airline_section_z = airline#section#create(['windowswap', '%3p%%'.spc, 'linenr', ':%3v ', '%{strftime("%H:%M")}'])
+endfunction
+autocmd VimEnter * call AirlineInit()
 
 " bufferline
 let g:bufferline_echo = 0
 let g:loaded_bufferline = 1
 
 " bufferexplorer
-"let g:bufexplorer_version = "disabled"
+let g:bufexplorer_version = 'disabled'
+
+" syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
