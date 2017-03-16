@@ -6,11 +6,19 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
+Plug 'davidhalter/jedi'
+
 Plug 'zchee/deoplete-jedi'
 
 Plug 'neomake/neomake'
 
-Plug 'freeo/vim-kalisi'
+Plug 'Yggdroot/indentLine'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'scrooloose/nerdtree'
+
+Plug 'tpope/vim-commentary'
 
 " Initialize plugin system
 call plug#end()
@@ -31,7 +39,7 @@ let g:neomake_echo_current_error = 1
 autocmd! BufEnter,BufReadPost,BufWritePost *.py Neomake
 
 
-" frankier/neovim-colors-solarized-truecolor-only
+" this breaks my colors
 if (has("termguicolors"))
  "set termguicolors
 endif
@@ -40,8 +48,7 @@ endif
 syntax enable
 filetype plugin indent on
 set t_Co=256
-set background=dark
-colorscheme kalisi
+colorscheme gruvbox
 set smartindent
 set tabstop=4
 set shiftwidth=4
@@ -54,7 +61,8 @@ set hidden
 set laststatus=2
 set nosmd
 set noru
-set cursorline
+" this causes lag
+" set cursorline
 set autoread
 set hlsearch
 set ignorecase
@@ -66,7 +74,6 @@ set encoding=utf-8
 set nofoldenable
 set listchars=tab:»·,trail:·
 set list
-set nocompatible
 set clipboard=unnamed
 set clipboard=unnamedplus
 " pair brackets color
@@ -103,8 +110,6 @@ hi User3 ctermfg=cyan ctermbg=black
 hi User4 ctermfg=green ctermbg=black
 hi User5 ctermfg=yellow ctermbg=black
 
-"set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
-"set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
