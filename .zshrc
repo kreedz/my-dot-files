@@ -1,34 +1,177 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# zmodload -a zsh/zprof zprof
+
+# exports
 export EDITOR="nvim"
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 export JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 export JRE_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
-export NETBEANS_HOME=~/.bin/netbeans-8.1/bin/
-GEM_HOME=$HOME/.gem
-export GEM_HOME
-GEM_PATH=$HOME/.gem/ruby/2.1.0
-export GEM_PATH
+export GEM_HOME=$HOME/.gem
+export GEM_PATH=$HOME/.gem/ruby/2.1.0
+PATH=$HOME/bin:/usr/local/bin:$PATH
 PATH=$PATH:$HOME/.gem/ruby/2.1.0/bin
-export PATH
 PATH=$PATH:$JDK_HOME/bin
 PATH=$PATH:$JRE_HOME/bin
-PATH=$PATH:$NETBEANS_HOME
-export PATH
-export PATH="$HOME/neovim/bin:$PATH"
+PATH=$HOME/neovim/bin:$PATH
 PATH=$PATH:~/.local/bin
+PATH=$PATH:~/.bin
+export PATH
+# export WORKON_HOME=~/.virtualenvs
+# source /usr/local/bin/virtualenvwrapper.sh
+# source ~/.bin/tmuxinator.bash
+# export ZSH=/home/kreedz/.oh-my-zsh
 
-# Path to your oh-my-zsh installation.
-  export ZSH=/home/kreedz/.oh-my-zsh
 
-if [ -f ~/.zsh_aliases ]; then
-    . ~/.zsh_aliases
-fi
+# aliases
+alias ls='ls --color=auto'
+alias l=ls
+alias ll='ls -lh'
+alias df='df -h'
+alias du='du -h -c'
+alias la='ls -A'
+alias lx='ls -lXB'              # sort by extension
+alias lk='ls -lSr'              # sort by size
+alias lt='ls -ltr | tail -10'   # sort by date
+alias h='history | grep $1'
+alias off='sudo shutdown -h now'
+alias xclip='xclip -selection clip'
+alias music='mpd && mpdcron && ncmpcpp'
+
+alias -s {avi,mpeg,mpg,mov,m2v,mkv}=mpv
+
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# git
+alias gst='git status'
+alias gc='git commit -v'
+alias gcmsg='git commit -m'
+alias ga='git add'
+
+
+# history
+HISTFILE=~/.zsh/zsh_history
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=3000
+
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+
+
+# sources
+# source $ZSH/oh-my-zsh.sh
+# source antigen.zsh
+# source "/home/kreedz/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh"
+# . ~/.zsh/exports.zsh
+# . ~/.zsh/aliases.zsh
+# . ~/.zsh/functions.zsh
+# . ~/.zsh/history.zsh
+# . ~/.zsh/sources.zsh
+
+
+# functions
+# pip --user install by default
+function pip() {
+  if [ "$1" = "install" -o "$1" = "bundle" ]; then
+    cmd="$1"
+    shift
+    /usr/local/bin/pip $cmd --user $@
+  else
+    /usr/local/bin/pip $@
+  fi
+}
+
+function sshagent() {
+    SSH_ENV="$HOME/.ssh/environment"
+
+    function start_agent {
+        echo "Initialising new SSH agent..."
+        /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+        echo succeeded
+        chmod 600 "${SSH_ENV}"
+        . "${SSH_ENV}" > /dev/null
+        /usr/bin/ssh-add;
+    }
+
+    # Source SSH settings, if applicable
+
+    if [ -f "${SSH_ENV}" ]; then
+        . "${SSH_ENV}" > /dev/null
+        #ps ${SSH_AGENT_PID} doesn't work under cywgin
+        ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+            start_agent;
+        }
+    else
+        start_agent;
+    fi
+}
+
+
+setopt autocd
+unsetopt beep
+
+
+# zplug
+# source ~/.zplug/init.zsh
+# zplug "plugins/git", from:oh-my-zsh
+# zplug "plugins/sudo", from:oh-my-zsh
+# zplug "plugins/pip", from:oh-my-zsh
+# zplug "zsh-users/zsh-autosuggestions", at:develop
+# zplug "zsh-users/zsh-syntax-highlighting", defer:3
+# zplug "Tarrasch/zsh-bd"
+# zplug "themes/sorin", from:oh-my-zsh, as:theme
+# if ! zplug check --verbose; then
+#     printf "Install? [y/N]: "
+#     if read -q; then
+#         echo; zplug install
+#     fi
+# fi
+
+# # Then, source plugins and add commands to $PATH
+# zplug load --verbose
+
+
+# zgen
+# source ~/.zgen/zgen.zsh
+# # if the init scipt doesn't exist
+# if ! zgen saved; then
+#     echo "Creating a zgen save"
+
+#     zgen oh-my-zsh
+
+#     # plugins
+#     zgen oh-my-zsh plugins/git
+#     zgen oh-my-zsh plugins/sudo
+#     # zgen load zsh-users/zsh-syntax-highlighting
+
+#     # theme
+#     zgen oh-my-zsh themes/arrow
+
+#     # save all to init script
+#     zgen save
+# fi
+
+# antibody
+source <(antibody init)
+antibody bundle zsh-users/zsh-syntax-highlighting
+antibody bundle zsh-users/zsh-autosuggestions branch:develop
+antibody bundle subnixr/minimal
+# fpath=( "$HOME/.zfunctions" $fpath )
+# antibody bundle sindresorhus/pure
+
+# zprof
+
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="theunraveler"
+# ZSH_THEME="sunaku"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -72,9 +215,14 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo)
+# plugins=(git sudo pip)
 
-source $ZSH/oh-my-zsh.sh
+# antigen
+# antigen use oh-my-zsh
+# antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle zsh-users/zsh-autosuggestions
+# antigen theme sorin
+# antigen apply
 
 # User configuration
 

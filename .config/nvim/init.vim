@@ -15,11 +15,15 @@ Plug 'neomake/neomake'
 " display vertical lines for indent
 Plug 'Yggdroot/indentLine'
 
+" display λ for lambda, etc.
+" Plug 'ehamberg/vim-cute-python'
+
 " colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'jnurmine/Zenburn'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'tomasr/molokai'
+Plug 'junegunn/seoul256.vim'
 
 " dir tree
 Plug 'scrooloose/nerdtree'
@@ -34,12 +38,24 @@ call plug#end()
 
 " omnifuncs
 augroup omnifuncs
-  autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
+
+augroup autoload_last_files
+    autocmd!
+    " Go to last file(s) if invoked without arguments
+    autocmd VimLeave * nested if (!isdirectory($HOME . "/.config/nvim")) |
+        \ call mkdir($HOME . "/.config/nvim") |
+        \ endif |
+        \ execute "mksession! " . $HOME . "/.vim/Session.vim"
+
+    autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.vim/Session.vim") |
+        \ execute "source " . $HOME . "/.vim/Session.vim"
 augroup end
 
 
@@ -51,6 +67,7 @@ let g:deoplete#sources#jedi#python_path = '/usr/bin/python'
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " To close preview window of deoplete automagically
 autocmd CompleteDone * pclose
+" turn off preview window
 set completeopt-=preview
 
 
@@ -75,15 +92,11 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 
 " highlight python 80 column
-" autocmd BufEnter *.py setlocal colorcolumn=80
+autocmd BufEnter *.py setlocal colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " autoreload init.vim
-" augroup reload_vimrc
-"     autocmd!
-"     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-" augroup END
-augroup vimrc     " Source vim configuration upon save
+augroup vimrc
     autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
 augroup END
 
@@ -93,16 +106,18 @@ endif
 
 syntax enable
 filetype plugin indent on
+language messages C
+let $LANG = 'en'
 set t_Co=256
 set t_ut=
-" colorscheme solarized
-set background=light
+colorscheme solarized
+set background=dark
 set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set sessionoptions+=tabpages,globals
-" set nu
+set nu
 set numberwidth=3
 " switch between buffers without saving them
 set hidden
@@ -128,7 +143,6 @@ set clipboard=unnamedplus
 " pair brackets color
 highlight MatchParen cterm=bold ctermfg=cyan
 
-
 " hotkeys
 let mapleader = "\<Space>"
 " buffers
@@ -153,22 +167,30 @@ map <silent> <F5> :NERDTreeToggle<CR>
 
 " statusline
 set statusline=
-set statusline +=%1*\ %n\ %*            "buffer number
-set statusline +=%5*%{&ff}%*            "file format
-set statusline +=%3*%y%*                "file type
-set statusline +=%4*\ %<%F%*            "full path
-set statusline +=%2*%m%*                "modified flag
-set statusline +=%1*%=%5l%*             "current line
-set statusline +=%2*/%L%*               "total lines
-set statusline +=%1*%4v\ %*             "virtual column number
-set statusline +=%2*0x%04B\ %*          "character under cursorline
-set statusline +=%5*%{strftime(\"%H:%M\")}%*
+set statusline +=%6*\ %n\ %*                    " buffer number
+set statusline +=%5*%{&ff}%*                    " file format
+set statusline +=%3*%y%*                        " file type
+set statusline +=%4*\ %<%F%*                    " full path
+set statusline +=%2*%m%*                        " modified flag
+" set statusline +=%1*%=%5l%*                   " current line
+set statusline +=%1*%=%2*%L%*                   " total lines
+set statusline +=%5*\ %P%*                      " percentage current line
+set statusline +=%1*%4v\ %*                     " virtual column number
+" set statusline +=%2*0x%04B\ %*                " character under cursorline
+set statusline +=%5*%{strftime(\"%H:%M\")}%*    " current time
 hi User1 guifg=magenta guibg=black
 hi User2 guifg=red guibg=black
 hi User3 guifg=cyan guibg=black
 hi User4 guifg=green guibg=black
-hi User5 guifg=yellow guibg=black
+hi User5 guifg=cyan guibg=black
+hi User6 guifg=grey guibg=black
 
+" indicate insert mode
+augroup omnifuncs
+    autocmd!
+    au InsertEnter * hi User6 guibg=red
+    au InsertLeave * hi User6 guibg=black
+augroup end
 
 
 set keymap=russian-jcukenwin
