@@ -7,6 +7,10 @@ export JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 export JRE_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
 export GEM_HOME=$HOME/.gem
 export GEM_PATH=$HOME/.gem/ruby/2.1.0
+export PYENV_ROOT="$HOME/.pyenv"
+# export TERM=screen-256color
+export LUA_PATH='/home/kreedz/.luarocks/share/lua/5.1/?.lua;/home/kreedz/.luarocks/share/lua/5.1/?/init.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?.lua;./?.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua'
+export LUA_CPATH='/home/kreedz/.luarocks/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so;./?.so;/usr/lib/x86_64-linux-gnu/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so'
 PATH=$HOME/bin:/usr/local/bin:$PATH
 PATH=$PATH:$HOME/.gem/ruby/2.1.0/bin
 PATH=$PATH:$JDK_HOME/bin
@@ -14,9 +18,17 @@ PATH=$PATH:$JRE_HOME/bin
 PATH=$HOME/neovim/bin:$PATH
 PATH=$PATH:~/.local/bin
 PATH=$PATH:~/.bin
+PATH=$PATH:~/.gem/bin
+PATH="$HOME/.rbenv/bin:$PATH"
+PATH="$PYENV_ROOT/bin:$PATH"
+PATH=~/.npm-global/bin:$PATH
 export PATH
-# export WORKON_HOME=~/.virtualenvs
-# source /usr/local/bin/virtualenvwrapper.sh
+export down=~/Downloads
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export PROJECT_HOME=$HOME/work/django
+source $HOME/.local/bin/virtualenvwrapper_lazy.sh
+# source /usr/local/bin/virtualenvwrapper_lazy.sh
 # source ~/.bin/tmuxinator.bash
 # export ZSH=/home/kreedz/.oh-my-zsh
 
@@ -35,6 +47,8 @@ alias h='history | grep $1'
 alias off='sudo shutdown -h now'
 alias xclip='xclip -selection clip'
 alias music='mpd && mpdcron && ncmpcpp'
+alias n=nvim
+# alias mc="export TERM=screen-256color && mc && export TERM=xterm-256color"
 
 alias -s {avi,mpeg,mpg,mov,m2v,mkv}=mpv
 
@@ -46,7 +60,7 @@ alias gst='git status'
 alias gc='git commit -v'
 alias gcmsg='git commit -m'
 alias ga='git add'
-
+alias gdi='git diff'
 
 # history
 HISTFILE=~/.zsh/zsh_history
@@ -77,15 +91,15 @@ setopt HIST_REDUCE_BLANKS
 
 # functions
 # pip --user install by default
-function pip() {
-  if [ "$1" = "install" -o "$1" = "bundle" ]; then
-    cmd="$1"
-    shift
-    /usr/local/bin/pip $cmd --user $@
-  else
-    /usr/local/bin/pip $@
-  fi
-}
+# function pip() {
+#   if [ "$1" = "install" -o "$1" = "bundle" ]; then
+#     cmd="$1"
+#     shift
+#     /usr/local/bin/pip $cmd --user $@
+#   else
+#     /usr/local/bin/pip $@
+#   fi
+# }
 
 function sshagent() {
     SSH_ENV="$HOME/.ssh/environment"
@@ -112,19 +126,33 @@ function sshagent() {
     fi
 }
 
+function initrbenv() {
+    eval "$(rbenv init -)"
+}
 
-setopt autocd
-unsetopt beep
+function initpyenv() {
+    eval "$(pyenv init -)"
+}
+
+function initvirtualenvwrapper() {
+    source /usr/local/bin/virtualenvwrapper.sh
+}
+
+
+
+
+# setopt autocd
+# unsetopt beep
 
 
 # zplug
 # source ~/.zplug/init.zsh
 # zplug "plugins/git", from:oh-my-zsh
-# zplug "plugins/sudo", from:oh-my-zsh
-# zplug "plugins/pip", from:oh-my-zsh
-# zplug "zsh-users/zsh-autosuggestions", at:develop
-# zplug "zsh-users/zsh-syntax-highlighting", defer:3
-# zplug "Tarrasch/zsh-bd"
+# # zplug "plugins/sudo", from:oh-my-zsh
+# # zplug "plugins/pip", from:oh-my-zsh
+# # zplug "zsh-users/zsh-autosuggestions", at:develop
+# # zplug "zsh-users/zsh-syntax-highlighting", defer:3
+# # zplug "Tarrasch/zsh-bd"
 # zplug "themes/sorin", from:oh-my-zsh, as:theme
 # if ! zplug check --verbose; then
 #     printf "Install? [y/N]: "
@@ -136,34 +164,70 @@ unsetopt beep
 # # Then, source plugins and add commands to $PATH
 # zplug load --verbose
 
+# autoload -U up-line-or-beginning-search
+# autoload -U down-line-or-beginning-search
+# zle -N up-line-or-beginning-search
+# zle -N down-line-or-beginning-search
+# bindkey "^[[A" up-line-or-beginning-search # Up
+# bindkey "^[[B" down-line-or-beginning-search # Down
+# bindkey '^[[A' up-line-or-search
+# bindkey '^[[B' down-line-or-search
+# bindkey '^[[A' up-line-or-history
+# bindkey '^[[B' down-line-or-history
+# bindkey '^[[1;5C' forward-word
+# bindkey '^[[1;5D' backward-word
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
 
+# bindkey '^[[A' forward-word
+# bindkey '^[[B' backward-word
+
+# DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # zgen
-# source ~/.zgen/zgen.zsh
-# # if the init scipt doesn't exist
-# if ! zgen saved; then
-#     echo "Creating a zgen save"
+# ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 
-#     zgen oh-my-zsh
+GEOMETRY_PROMPT_PLUGINS=(virtualenv git)
+source ~/.zgen/zgen.zsh
+# if the init scipt doesn't exist
+if ! zgen saved; then
+    echo "Creating a zgen save"
 
-#     # plugins
-#     zgen oh-my-zsh plugins/git
-#     zgen oh-my-zsh plugins/sudo
-#     # zgen load zsh-users/zsh-syntax-highlighting
+    zgen oh-my-zsh
 
-#     # theme
-#     zgen oh-my-zsh themes/arrow
+    zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/sudo
+    zgen oh-my-zsh plugins/pip
+    zgen oh-my-zsh plugins/django
+    # zgen load soimort/translate-shell translate-shell.plugin.zsh develop
+    # zgen load zsh-users/zsh-autosuggestions zsh-autosuggestions.zsh develop
 
-#     # save all to init script
-#     zgen save
-# fi
+    # theme
+    # zgen oh-my-zsh themes/arrow
+    zgen load frmendes/geometry
+
+    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load zsh-users/zsh-history-substring-search
+
+    zgen save
+fi
+
+# bindkey -e
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
 
 # antibody
-source <(antibody init)
-antibody bundle zsh-users/zsh-syntax-highlighting
-antibody bundle zsh-users/zsh-autosuggestions branch:develop
-antibody bundle subnixr/minimal
-# fpath=( "$HOME/.zfunctions" $fpath )
+# source <(antibody init)
+# antibody bundle zsh-users/zsh-syntax-highlighting
+# antibody bundle zsh-users/zsh-autosuggestions branch:develop
+# antibody bundle subnixr/minimal
 # antibody bundle sindresorhus/pure
+# antibody bundle frmendes/geometry
+
+# filthy promt theme
+# fpath=( "$HOME/.zfunctions" $fpath )
+# antibody bundle molovo/filthy
+# autoload -U promptinit && promptinit
+# prompt filthy
 
 # zprof
 
@@ -252,3 +316,6 @@ antibody bundle subnixr/minimal
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_TMUX=1
