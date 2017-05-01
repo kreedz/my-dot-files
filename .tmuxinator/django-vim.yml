@@ -1,0 +1,13 @@
+# ~/.tmuxinator/django-vim.yml
+
+name: django-vim
+root: ~/work/django/
+
+pre_window: workon testdrf
+windows:
+  - weather:
+      - cd weather
+      - n
+  - testdrf:
+      - cd testdrf
+      - n

@@ -48,6 +48,9 @@ Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 
+" syntax hi for python
+Plug 'vim-python/python-syntax'
+
 " Initialize plugin system
 call plug#end()
 
@@ -76,6 +79,8 @@ aug end
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#jedi#python_path = '/usr/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 
 " tab for walking through completition
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -101,6 +106,7 @@ aug end
 
 " nerdtree
 let NERDTreeIgnore=['\.pyc$', '\~$']
+map <silent> <F4> :NERDTreeFind<CR>
 map <silent> <F5> :NERDTreeToggle<CR>
 
 
@@ -132,7 +138,7 @@ let g:startify_disable_at_vimenter = 1
 let g:startify_skiplist = [
         \ 'NERD_tree_*',
         \ ]
-function Ssave()
+function! Ssave()
     :NERDTreeClose
     :SSave
 endfunction
@@ -150,12 +156,15 @@ nnoremap <silent> <leader>s :Startify<CR>
 " aug end
 
 
+
+
 " fzf
 "
 nnoremap <silent> <leader><space> :Files<CR>
 nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>? :History<CR>
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 
 " molokai
@@ -177,7 +186,7 @@ augroup END
 
 
 if (has("termguicolors"))
- set termguicolors
+    set termguicolors
 endif
 
 syntax enable
@@ -187,7 +196,7 @@ let $LANG = 'en'
 set t_Co=256
 set t_ut=
 colorscheme solarized
-set background=dark
+set background=light
 set smartindent
 set autoindent
 set tabstop=4
@@ -243,6 +252,8 @@ map <Leader>p iimport ipdb; ipdb.set_trace()<ESC>
 nnoremap <CR> :noh<CR><CR>
 " insert new line without leaving normal mode
 nmap oo o<Esc>
+" forward-delete in insert-mode 
+inoremap <C-d> <Del>
 
 
 " statusline
@@ -277,7 +288,11 @@ set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
+inoremap <C-l> <C-^>
 
 
 " MatchTagAlways
 " hi MatchTag guifg=black guibg=lightgreen
+" python-syntax
+let g:python_highlight_all = 1
+" let g:python_highlight_class_vars=1

@@ -1,0 +1,13 @@
+# ~/.tmuxinator/django-console.yml
+
+name: django-console
+root: ~/work/django/t
+
+pre_window: workon testdrf
+windows:
+  - server: python manage.py runserver
+  - weather:
+      layout: main-vertical
+      panes:
+        - cd testdrf
+        - cd weather

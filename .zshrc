@@ -28,8 +28,6 @@ export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export PROJECT_HOME=$HOME/work/django
 source $HOME/.local/bin/virtualenvwrapper_lazy.sh
-# source /usr/local/bin/virtualenvwrapper_lazy.sh
-# source ~/.bin/tmuxinator.bash
 # export ZSH=/home/kreedz/.oh-my-zsh
 
 
@@ -101,7 +99,7 @@ setopt HIST_REDUCE_BLANKS
 #   fi
 # }
 
-function sshagent() {
+function initsshagent() {
     SSH_ENV="$HOME/.ssh/environment"
 
     function start_agent {
@@ -137,6 +135,7 @@ function initpyenv() {
 function initvirtualenvwrapper() {
     source /usr/local/bin/virtualenvwrapper.sh
 }
+
 
 
 
@@ -197,7 +196,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/sudo
     zgen oh-my-zsh plugins/pip
-    zgen oh-my-zsh plugins/django
+    # zgen oh-my-zsh plugins/django
     # zgen load soimort/translate-shell translate-shell.plugin.zsh develop
     # zgen load zsh-users/zsh-autosuggestions zsh-autosuggestions.zsh develop
 
@@ -318,4 +317,34 @@ bindkey '^[OB' history-substring-search-down
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.bin/tmuxinator.zsh
 export FZF_TMUX=1
+# auto-ls () {
+#    if [[ $#BUFFER -eq 0 ]]; then
+#        echo ""
+#        ls
+#        zle redisplay
+#    else
+#        zle .$WIDGET
+#    fi
+# }
+# zle -N auto-ls
+# zle -N accept-line auto-ls
+# zle -N other-widget auto-ls
+# function do_enter() {
+#     if [ -n "$BUFFER" ]; then
+#         zle accept-line
+#         return 0
+#     fi
+#     echo
+#     ls
+#     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
+#         echo
+#         echo -e "\e[0;33m--- git status ---\e[0m"
+#         git status -sb
+#     fi
+#     zle reset-prompt
+#     return 0
+# }
+# zle -N do_enter
+# bindkey '^m' do_enter
