@@ -6,6 +6,7 @@ call plug#begin('~/AppData/Local/nvim/autoload')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -21,9 +22,6 @@ Plug 'Yggdroot/indentLine'
 " manage sessions
 Plug 'mhinz/vim-startify'
 
-" display λ for lambda, etc.
-" Plug 'ehamberg/vim-cute-python'
-
 " colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'jnurmine/Zenburn'
@@ -37,25 +35,26 @@ Plug 'scrooloose/nerdtree'
 " code commentary
 Plug 'tpope/vim-commentary'
 
-" syntax highlighting for vue
-" Plug 'posva/vim-vue'
-
 " match tags in html
 " Plug 'Valloric/MatchTagAlways'
 
+" ts
+" Plug 'Quramy/tsuquyomi'
+" Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': 'typescript' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' }
+
+" js
+"Plug 'pangloss/vim-javascript'
+"Plug 'carlitux/deoplete-ternjs'
+"Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+
 " syntax hi for html5, js, jsx, ts, tsx
 Plug 'othree/html5.vim'
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-
-" syntax hi for python
-Plug 'vim-python/python-syntax'
-
-" refactoring and autoimport
-" Plug 'python-rope/ropevim'
+"Plug 'othree/yajs.vim'
+"Plug 'othree/javascript-libraries-syntax.vim'
+"Plug 'mxw/vim-jsx'
+"Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
@@ -90,8 +89,8 @@ aug end
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#jedi#python_path = 'C:/Python36-32/python.exe'
-let g:python_host_prog = 'C:/Python27/python.exe'
-let g:python3_host_prog = 'C:/Python36-32/python.exe'
+" let g:python_host_prog = 'C:/Python27/python.exe'
+" let g:python3_host_prog = 'C:/Python36-32/python.exe'
 
 " tab for walking through completition
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -103,6 +102,7 @@ set completeopt-=preview
 
 " neomake
 let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_javascript_enabled_makers = ['eslint']
 " let g:neomake_python_pep8_exe = '/home/kreedz/.local/bin/pep8'
 let g:neomake_open_list = 0
 let g:neomake_echo_current_error = 1
