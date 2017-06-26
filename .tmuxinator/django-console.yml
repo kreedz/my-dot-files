@@ -6,20 +6,20 @@ root: ~/work/django/
 pre_window: workon drf
 windows:
   - server:
-     - cd weather
+     - cd myshowsexporter
      - python manage.py runserver
   - shell:
       layout: tiled
       panes:
         - weather:
-          - cd weather
+          - cd myshowsexporter
           - python manage.py shell
         - testdrf:
           - cd testdrf
           - python manage.py shell
         - ipython3
-  - weather:
+  - projects dir:
       layout: main-vertical
       panes:
-        - cd weather
+        - cd myshowsexporter
         - cd testdrf

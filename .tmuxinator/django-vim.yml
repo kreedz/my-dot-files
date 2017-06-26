@@ -5,8 +5,8 @@ root: ~/work/django/
 
 pre_window: workon testdrf
 windows:
-  - weather:
-      - cd weather
+  - myshowsexporter:
+      - cd myshowsexporter
       - n
   - testdrf:
       - cd testdrf

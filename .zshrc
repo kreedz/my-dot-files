@@ -184,7 +184,7 @@ function initvirtualenvwrapper() {
 # DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # zgen
 # ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
-
+# GEOMETRY_PROMPT_PREFIX=""
 GEOMETRY_PROMPT_PLUGINS=(virtualenv git)
 source ~/.zgen/zgen.zsh
 # if the init scipt doesn't exist
@@ -319,18 +319,19 @@ bindkey '^[OB' history-substring-search-down
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.bin/tmuxinator.zsh
 export FZF_TMUX=1
-# auto-ls () {
-#    if [[ $#BUFFER -eq 0 ]]; then
-#        echo ""
-#        ls
-#        zle redisplay
-#    else
-#        zle .$WIDGET
-#    fi
-# }
-# zle -N auto-ls
-# zle -N accept-line auto-ls
-# zle -N other-widget auto-ls
+auto-ls () {
+   if [[ $#BUFFER -eq 0 ]]; then
+       echo ""
+       ls
+       echo "" # Workaround
+       zle redisplay
+   else
+       zle .$WIDGET
+   fi
+}
+zle -N auto-ls
+zle -N accept-line auto-ls
+zle -N other-widget auto-ls
 # function do_enter() {
 #     if [ -n "$BUFFER" ]; then
 #         zle accept-line

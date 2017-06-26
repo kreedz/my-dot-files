@@ -43,13 +43,19 @@ Plug 'tpope/vim-commentary'
 " match tags in html
 " Plug 'Valloric/MatchTagAlways'
 
-" syntax hi for html5, js
+" syntax hi for html5, js, jsx, ts, tsx
 Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " syntax hi for python
 Plug 'vim-python/python-syntax'
+
+" refactoring and autoimport
+" Plug 'python-rope/ropevim'
 
 " Initialize plugin system
 call plug#end()
@@ -63,6 +69,11 @@ aug omnifuncs
     au FileType python setlocal omnifunc=pythoncomplete#Complete
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 aug end
+
+" set filetypes as typescript.jsx
+au BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
+" au FileType javascript,typescript.jsx setlocal tabstop=2 | set shiftwidth=2 | set expandtab
+au FileType javascript,typescript,typescript.jsx,css setl sw=2 sts=2 et expandtab
 
 aug filetype_odd_vue
     au!
@@ -105,9 +116,10 @@ aug end
 
 
 " nerdtree
-let NERDTreeIgnore=['\.pyc$', '\~$']
+let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules', '.git']
 map <silent> <F4> :NERDTreeFind<CR>
 map <silent> <F5> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 
 " javascript-libraries-syntax.vim
@@ -156,10 +168,7 @@ nnoremap <silent> <leader>s :Startify<CR>
 " aug end
 
 
-
-
 " fzf
-"
 nnoremap <silent> <leader><space> :Files<CR>
 nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>A :Windows<CR>
@@ -167,15 +176,29 @@ nnoremap <silent> <leader>? :History<CR>
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 
+" vim jsx
+let g:jsx_ext_required = 0
+
+
+" vim-jsx-typescript
+" set jsx-tag colors
+" hi xmlTagName ctermfg=45
+" hi xmlTag ctermfg=20
+
+
+" ropevim
+" let g:ropevim_autoimport_modules = ["os", "django"]
+
+
 " molokai
 " let g:molokai_original = 1
 " let g:rehash256 = 1
 
 
-" highlight python 80 column
-augroup py80column
+" highlight python,js,ts 80 column
+augroup py_js_ts_80column
     autocmd!
-    autocmd BufRead *.py setlocal colorcolumn=80
+    autocmd BufRead *.py,*.js,*.ts,*.jsx,*.tsx setlocal colorcolumn=80
 augroup end
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
@@ -249,7 +272,7 @@ inoremap <C-S> <C-O>:update<CR>
 vnoremap r "_dP
 map <Leader>p iimport ipdb; ipdb.set_trace()<ESC>
 " stop hi
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> :noh<CR>
 " insert new line without leaving normal mode
 nmap oo o<Esc>
 " forward-delete in insert-mode 
