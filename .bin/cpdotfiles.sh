@@ -8,6 +8,7 @@ declare -a FILES_TO_BACKUP=(
     "~/.bin/startup.sh"
     "~/.tmuxinator"
     "~/.tmux.conf"
+    "~/.npmrc"
 )
 
 function echom(){

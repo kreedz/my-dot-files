@@ -24,10 +24,12 @@ PATH="$PYENV_ROOT/bin:$PATH"
 PATH=~/.npm-global/bin:$PATH
 export PATH
 export down=~/Downloads
+export dow=~/Загрузки
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export PROJECT_HOME=$HOME/work/django
 source $HOME/.local/bin/virtualenvwrapper_lazy.sh
+export NVM_DIR="$HOME/.nvm"
 # export ZSH=/home/kreedz/.oh-my-zsh
 
 
@@ -134,6 +136,11 @@ function initpyenv() {
 
 function initvirtualenvwrapper() {
     source /usr/local/bin/virtualenvwrapper.sh
+}
+
+function initnvmenv() {
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
 
 
