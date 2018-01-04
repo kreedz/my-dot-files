@@ -9,6 +9,7 @@ Plug 'junegunn/fzf.vim'
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'davidhalter/jedi-vim'
 Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
 
@@ -48,8 +49,10 @@ Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
+Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+Plug 'mhartington/nvim-typescript'
 
 " syntax hi for python
 Plug 'vim-python/python-syntax'
@@ -72,8 +75,7 @@ aug end
 
 " set filetypes as typescript.jsx
 au BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
-" au FileType javascript,typescript.jsx setlocal tabstop=2 | set shiftwidth=2 | set expandtab
-au FileType javascript,typescript,typescript.jsx,css setl sw=2 sts=2 et expandtab
+au FileType javascript,typescript,typescript.jsx,css setl sw=4 sts=4 et
 
 aug filetype_odd_vue
     au!
@@ -92,6 +94,7 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#jedi#python_path = '/usr/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
+let g:jedi#force_py_version = 3
 
 " tab for walking through completition
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -103,6 +106,7 @@ set completeopt-=preview
 
 " neomake
 let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
 " let g:neomake_python_pep8_exe = '/home/kreedz/.local/bin/pep8'
 let g:neomake_open_list = 0
 let g:neomake_echo_current_error = 1
@@ -111,6 +115,7 @@ let neomake_blacklisted_files = ['settings.py']
 aug neomake_autostart
   au!
   au BufRead,BufReadPost,BufWritePost *.py if index(neomake_blacklisted_files, expand('%:t')) < 0 | Neomake
+  au BufRead,BufReadPost,BufWritePost *.ts,*.tsx Neomake
   " autocmd BufEnter,BufReadPost,BufWritePost *.py echom "New buffer!"
 aug end
 
