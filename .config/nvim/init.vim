@@ -44,15 +44,21 @@ Plug 'tpope/vim-commentary'
 " match tags in html
 " Plug 'Valloric/MatchTagAlways'
 
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
+" ts completition
+Plug 'mhartington/nvim-typescript'
+" Plug 'Quramy/tsuquyomi'
+
 " syntax hi for html5, js, jsx, ts, tsx
 Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mxw/vim-jsx'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'peitalin/vim-jsx-typescript'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
 " Plug 'leafgarland/typescript-vim'
-" Plug 'peitalin/vim-jsx-typescript'
-Plug 'mhartington/nvim-typescript'
 
 " syntax hi for python
 Plug 'vim-python/python-syntax'
@@ -74,7 +80,7 @@ aug omnifuncs
 aug end
 
 " set filetypes as typescript.jsx
-au BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
+" au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
 au FileType javascript,typescript,typescript.jsx,css setl sw=4 sts=4 et
 
 aug filetype_odd_vue
@@ -128,7 +134,7 @@ let NERDTreeShowHidden=1
 
 
 " javascript-libraries-syntax.vim
-let g:used_javascript_libs = 'vue'
+" let g:used_javascript_libs = 'react'
 
 
 " MatchTagAlways
