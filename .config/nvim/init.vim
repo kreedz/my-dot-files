@@ -42,7 +42,10 @@ Plug 'tpope/vim-commentary'
 " Plug 'posva/vim-vue'
 
 " match tags in html
-" Plug 'Valloric/MatchTagAlways'
+Plug 'Valloric/MatchTagAlways'
+
+" match brackets
+" Plug 'itchyny/vim-parenmatch'
 
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
@@ -55,7 +58,7 @@ Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'peitalin/vim-jsx-typescript'
+" Plug 'peitalin/vim-jsx-typescript'
 " Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
 " Plug 'leafgarland/typescript-vim'
@@ -80,7 +83,7 @@ aug omnifuncs
 aug end
 
 " set filetypes as typescript.jsx
-" au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
 au FileType javascript,typescript,typescript.jsx,css setl sw=4 sts=4 et
 
 aug filetype_odd_vue
@@ -138,7 +141,7 @@ let NERDTreeShowHidden=1
 
 
 " MatchTagAlways
-let g:mta_filetypes = {'vue': 1, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
+let g:mta_filetypes = {'typescript.jsx': 0, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
 let g:mta_use_matchparen_group = 0
 let g:mta_set_default_matchtag_color = 0
 " hi MatchTag guifg=black guibg=lightgreen
@@ -189,6 +192,15 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " vim jsx
 let g:jsx_ext_required = 0
+
+
+" python-syntax
+let g:python_highlight_all = 1
+" let g:python_highlight_class_vars=1
+
+
+" disable match paren
+" let g:loaded_matchparen=1
 
 
 " vim-jsx-typescript
@@ -262,7 +274,7 @@ set clipboard=unnamed
 set clipboard=unnamedplus
 set timeoutlen=200
 " pair brackets color
-highlight MatchParen cterm=bold ctermfg=cyan
+highlight MatchParen cterm=bold guifg=orange guibg=grey
 
 
 " hotkeys
@@ -323,10 +335,3 @@ set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
 inoremap <C-l> <C-^>
-
-
-" MatchTagAlways
-" hi MatchTag guifg=black guibg=lightgreen
-" python-syntax
-let g:python_highlight_all = 1
-" let g:python_highlight_class_vars=1
