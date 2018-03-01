@@ -1,15 +1,15 @@
 "Specify a directory for plugins
 let mapleader = "\<Space>"
 
-call plug#begin('~/AppData/Local/nvim/autoload')
+call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+set rtp+=~\.fzf
 Plug 'junegunn/fzf.vim'
-
 
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'davidhalter/jedi-vim'
 Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
 
@@ -21,6 +21,9 @@ Plug 'Yggdroot/indentLine'
 
 " manage sessions
 Plug 'mhinz/vim-startify'
+
+" display λ for lambda, etc.
+" Plug 'ehamberg/vim-cute-python'
 
 " colorschemes
 Plug 'morhetz/gruvbox'
@@ -35,26 +38,36 @@ Plug 'scrooloose/nerdtree'
 " code commentary
 Plug 'tpope/vim-commentary'
 
+" syntax highlighting for vue
+" Plug 'posva/vim-vue'
+
 " match tags in html
 " Plug 'Valloric/MatchTagAlways'
 
-" ts
-" Plug 'Quramy/tsuquyomi'
-" Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': 'typescript' }
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' }
+" match brackets
+" Plug 'itchyny/vim-parenmatch'
 
-" js
-"Plug 'pangloss/vim-javascript'
-"Plug 'carlitux/deoplete-ternjs'
-"Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
+" ts completition
+Plug 'mhartington/nvim-typescript'
+" Plug 'Quramy/tsuquyomi'
 
 " syntax hi for html5, js, jsx, ts, tsx
 Plug 'othree/html5.vim'
-"Plug 'othree/yajs.vim'
-"Plug 'othree/javascript-libraries-syntax.vim'
-"Plug 'mxw/vim-jsx'
-"Plug 'peitalin/vim-jsx-typescript'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
+" Plug 'leafgarland/typescript-vim'
+
+" syntax hi for python
+Plug 'vim-python/python-syntax'
+
+" refactoring and autoimport
+" Plug 'python-rope/ropevim'
 
 " Initialize plugin system
 call plug#end()
@@ -70,9 +83,8 @@ aug omnifuncs
 aug end
 
 " set filetypes as typescript.jsx
-au BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
-" au FileType javascript,typescript.jsx setlocal tabstop=2 | set shiftwidth=2 | set expandtab
-au FileType javascript,typescript,typescript.jsx,css setl sw=2 sts=2 et expandtab
+au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+au FileType javascript,typescript,typescript.jsx,css setl sw=4 sts=4 et
 
 aug filetype_odd_vue
     au!
@@ -88,9 +100,10 @@ aug end
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#python_path = 'C:/Python36-32/python.exe'
-" let g:python_host_prog = 'C:/Python27/python.exe'
-" let g:python3_host_prog = 'C:/Python36-32/python.exe'
+let g:deoplete#sources#jedi#python_path = 'C:/Python36-32/python3.exe'
+let g:python_host_prog = 'C:/Python27/python.exe'
+let g:python3_host_prog = 'C:/Python36-32/python3.exe'
+let g:jedi#force_py_version = 3
 
 " tab for walking through completition
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -102,8 +115,8 @@ set completeopt-=preview
 
 " neomake
 let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_python_pep8_exe = '/home/kreedz/.local/bin/pep8'
+let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
+let g:neomake_python_pep8_exe = 'pep8'
 let g:neomake_open_list = 0
 let g:neomake_echo_current_error = 1
 
@@ -111,6 +124,7 @@ let neomake_blacklisted_files = ['settings.py']
 aug neomake_autostart
   au!
   au BufRead,BufReadPost,BufWritePost *.py if index(neomake_blacklisted_files, expand('%:t')) < 0 | Neomake
+  au BufRead,BufReadPost,BufWritePost *.ts,*.tsx Neomake
   " autocmd BufEnter,BufReadPost,BufWritePost *.py echom "New buffer!"
 aug end
 
@@ -123,11 +137,11 @@ let NERDTreeShowHidden=1
 
 
 " javascript-libraries-syntax.vim
-" let g:used_javascript_libs = 'vue'
+" let g:used_javascript_libs = 'react'
 
 
 " MatchTagAlways
-let g:mta_filetypes = {'vue': 1, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
+let g:mta_filetypes = {'typescript.jsx': 0, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
 let g:mta_use_matchparen_group = 0
 let g:mta_set_default_matchtag_color = 0
 " hi MatchTag guifg=black guibg=lightgreen
@@ -178,6 +192,15 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " vim jsx
 let g:jsx_ext_required = 0
+
+
+" python-syntax
+let g:python_highlight_all = 1
+" let g:python_highlight_class_vars=1
+
+
+" disable match paren
+" let g:loaded_matchparen=1
 
 
 " vim-jsx-typescript
@@ -251,7 +274,7 @@ set clipboard=unnamed
 set clipboard=unnamedplus
 set timeoutlen=200
 " pair brackets color
-highlight MatchParen cterm=bold ctermfg=cyan
+highlight MatchParen cterm=bold guifg=orange guibg=grey
 
 
 " hotkeys
@@ -312,10 +335,3 @@ set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
 inoremap <C-l> <C-^>
-
-
-" MatchTagAlways
-" hi MatchTag guifg=black guibg=lightgreen
-" python-syntax
-let g:python_highlight_all = 1
-" let g:python_highlight_class_vars=1
