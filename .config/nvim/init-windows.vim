@@ -1,17 +1,30 @@
 "Specify a directory for plugins
 let mapleader = "\<Space>"
-let VIM_HOME = fnamemodify(expand('<sfile>'), ':p:h')
+let PATHS = {
+    \'VIMRC_HOME': fnamemodify(expand('<sfile>'), ':p:h'),
+    \'FZF': '~/.fzf'
+\}
+let PATHS.MYSNIPPETS = PATHS['VIMRC_HOME'].'/mysnippets/'
+let FILES = {
+    \'EMMET_SNIPPETS': PATHS.MYSNIPPETS.'emmet-snippets.json'
+\}
+let MYULTISNIPS_DIR_NAME = 'ultisnips'
+
 if has('win64') || has('win32')
-    let PYTHON2_EXE = 'C:/Python27/python.exe'
-    let PYTHON3_EXE = 'C:/Python36-32/python.exe'
+    let PATHS.PYTHON2_EXE = 'C:/Python27/python.exe'
+    let PATHS.PYTHON3_EXE = 'C:/Python36-32/python.exe'
 elseif has('unix')
-    let PYTHON2_EXE = '/usr/bin/python'
-    let PYTHON3_EXE = '/usr/bin/python3'
+    let PATHS.PYTHON2_EXE = '/usr/bin/python'
+    let PATHS.PYTHON3_EXE = '/usr/bin/python3'
 endif
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-set rtp+=~\.fzf
+if has('win64') || has('win32')
+    Plug PATHS.FZF
+elseif has('unix')
+    Plug 'junegunn/fzf', { 'dir': PATHS.FZF, 'do': './install --all' }
+endif
 Plug 'junegunn/fzf.vim'
 
 " completitions
@@ -116,9 +129,9 @@ aug end
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#python_path = PYTHON3_EXE
-let g:python_host_prog = PYTHON2_EXE
-let g:python3_host_prog = PYTHON3_EXE
+let g:deoplete#sources#jedi#python_path = PATHS.PYTHON3_EXE
+let g:python_host_prog = PATHS.PYTHON2_EXE
+let g:python3_host_prog = PATHS.PYTHON3_EXE
 let g:jedi#force_py_version = 3
 
 " tab for walking through completition
@@ -214,16 +227,16 @@ let g:python_highlight_all = 1
 
 
 " emmet
-let g:user_emmet_settings = webapi#json#decode(join(readfile(expand(VIM_HOME.'/.snippets.json')), "\n"))
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand(FILES.EMMET_SNIPPETS)), "\n"))
 
 
 " utilsnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir=PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME
+let g:UltiSnipsSnippetDirectories=["UltiSnips", PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME]
 
 
 " disable match paren
