@@ -2,13 +2,14 @@
 
 MYDOTFILES=~/temp/my-dot-files
 declare -a FILES_TO_BACKUP=(
+    "~/.config/nvim/mysnippets"
     "~/.config/nvim/init.vim"
-    "~/.zshrc"
     "~/.bin/cpdotfiles.sh"
     "~/.bin/startup.sh"
     "~/.tmuxinator"
     "~/.tmux.conf"
     "~/.npmrc"
+    "~/.zshrc"
 )
 
 function echom(){
@@ -43,13 +44,3 @@ function backup(){
 }
 
 backup
-
-
-# cp ~/.config/nvim/init.vim $MYDOTFILES/.config/nvim
-# echom "init.vim"
-
-# cp ~/.zshrc $MYDOTFILES
-# echom ".zshrc"
-
-# cp ~/.bin/cpdotfiles.sh $MYDOTFILES/.bin/
-# echom "cpdotfiles.sh"
