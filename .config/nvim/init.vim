@@ -217,6 +217,23 @@ nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>? :History<CR>
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
+" Augmenting Ag command using fzf#vim#with_preview function
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" Add alt-x, alt-c hotkeys for preview scroll
+let s:orig_fzf_default_opts = get(s:, 'orig_fzf_default_opts', $FZF_DEFAULT_OPTS)
+let $FZF_DEFAULT_OPTS = s:orig_fzf_default_opts . ' --bind alt-x:preview-up,alt-c:preview-down'
+
 
 " vim jsx
 let g:jsx_ext_required = 0
@@ -289,8 +306,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set sessionoptions+=tabpages,globals
-set nu
-set numberwidth=3
 " switch between buffers without saving them
 set hidden
 set laststatus=2
@@ -369,6 +384,9 @@ augroup indicate_insert
     au InsertLeave * hi User6 guibg=black
 augroup end
 
+" vertical border
+set fillchars+=vert:│
+hi VertSplit ctermbg=NONE guibg=NONE
 
 set keymap=russian-jcukenwin
 set iminsert=0
