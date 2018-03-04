@@ -1,9 +1,30 @@
 "Specify a directory for plugins
 let mapleader = "\<Space>"
+let PATHS = {
+    \'VIMRC_HOME': fnamemodify(expand('<sfile>'), ':p:h'),
+    \'FZF': '~/.fzf'
+\}
+let PATHS.MYSNIPPETS = PATHS['VIMRC_HOME'].'/mysnippets/'
+let FILES = {
+    \'EMMET_SNIPPETS': PATHS.MYSNIPPETS.'emmet-snippets.json'
+\}
+let MYULTISNIPS_DIR_NAME = 'ultisnips'
+
+if has('win64') || has('win32')
+    let PATHS.PYTHON2_EXE = 'C:/Python27/python.exe'
+    let PATHS.PYTHON3_EXE = 'C:/Python36-32/python.exe'
+elseif has('unix')
+    let PATHS.PYTHON2_EXE = '/usr/bin/python'
+    let PATHS.PYTHON3_EXE = '/usr/bin/python3'
+endif
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+if has('win64') || has('win32')
+    Plug PATHS.FZF
+elseif has('unix')
+    Plug 'junegunn/fzf', { 'dir': PATHS.FZF, 'do': './install --all' }
+endif
 Plug 'junegunn/fzf.vim'
 
 " completitions
@@ -42,7 +63,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'posva/vim-vue'
 
 " match tags in html
-Plug 'Valloric/MatchTagAlways'
+" Plug 'Valloric/MatchTagAlways'
 
 " match brackets
 " Plug 'itchyny/vim-parenmatch'
@@ -62,6 +83,14 @@ Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
 " Plug 'leafgarland/typescript-vim'
+
+Plug 'mattn/emmet-vim'
+Plug 'mattn/webapi-vim'
+
+" Engine for snippets
+Plug 'SirVer/ultisnips'
+" Snippets
+Plug 'honza/vim-snippets'
 
 " syntax hi for python
 Plug 'vim-python/python-syntax'
@@ -100,9 +129,9 @@ aug end
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#python_path = '/usr/bin/python3'
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
+let g:deoplete#sources#jedi#python_path = PATHS.PYTHON3_EXE
+let g:python_host_prog = PATHS.PYTHON2_EXE
+let g:python3_host_prog = PATHS.PYTHON3_EXE
 let g:jedi#force_py_version = 3
 
 " tab for walking through completition
@@ -116,7 +145,7 @@ set completeopt-=preview
 " neomake
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
-" let g:neomake_python_pep8_exe = '/home/kreedz/.local/bin/pep8'
+let g:neomake_python_pep8_exe = 'pep8'
 let g:neomake_open_list = 0
 let g:neomake_echo_current_error = 1
 
@@ -125,7 +154,6 @@ aug neomake_autostart
   au!
   au BufRead,BufReadPost,BufWritePost *.py if index(neomake_blacklisted_files, expand('%:t')) < 0 | Neomake
   au BufRead,BufReadPost,BufWritePost *.ts,*.tsx Neomake
-  " autocmd BufEnter,BufReadPost,BufWritePost *.py echom "New buffer!"
 aug end
 
 
@@ -196,7 +224,19 @@ let g:jsx_ext_required = 0
 
 " python-syntax
 let g:python_highlight_all = 1
-" let g:python_highlight_class_vars=1
+
+
+" emmet
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand(FILES.EMMET_SNIPPETS)), "\n"))
+
+
+" utilsnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir=PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME
+let g:UltiSnipsSnippetDirectories=["UltiSnips", PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME]
 
 
 " disable match paren
