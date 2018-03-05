@@ -256,6 +256,12 @@ let g:UltiSnipsSnippetsDir=PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME
 let g:UltiSnipsSnippetDirectories=["UltiSnips", PATHS['MYSNIPPETS'].MYULTISNIPS_DIR_NAME]
 
 
+" indentLine
+let g:indentLine_bufNameExclude = ["term:.*"]
+" highlight conceal color with colorscheme
+" let g:indentLine_setColors = 0
+
+
 " disable match paren
 " let g:loaded_matchparen=1
 
