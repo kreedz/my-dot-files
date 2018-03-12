@@ -76,9 +76,14 @@ Plug 'mhartington/nvim-typescript'
 
 " syntax hi for html5, js, jsx, ts, tsx
 Plug 'othree/html5.vim'
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'othree/yajs.vim'
+" Plug 'othree/javascript-libraries-syntax.vim'
+" Plug 'HerringtonDarkholme/yats.vim'
+" ts
+Plug 'leafgarland/typescript-vim'
+" js/jsx
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty' " + tsx
 " Plug 'peitalin/vim-jsx-typescript'
 " Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
@@ -112,7 +117,7 @@ aug omnifuncs
 aug end
 
 " set filetypes as typescript.jsx
-au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+" au BufNewFile,BufRead *.tsx set filetype=typescript.jsx
 au FileType javascript,typescript,typescript.jsx,css setl sw=4 sts=4 et
 
 aug filetype_odd_vue
@@ -149,12 +154,12 @@ let g:neomake_python_pep8_exe = 'pep8'
 let g:neomake_open_list = 0
 let g:neomake_echo_current_error = 1
 
-let neomake_blacklisted_files = ['settings.py']
-aug neomake_autostart
-  au!
-  au BufRead,BufReadPost,BufWritePost *.py if index(neomake_blacklisted_files, expand('%:t')) < 0 | Neomake
-  au BufRead,BufReadPost,BufWritePost *.ts,*.tsx Neomake
-aug end
+"let neomake_blacklisted_files = ['settings.py']
+"aug neomake_autostart
+"  au!
+"  au BufRead,BufReadPost,BufWritePost *.py if index(neomake_blacklisted_files, expand('%:t')) < 0 | Neomake
+"  au BufRead,BufReadPost,BufWritePost *.ts,*.tsx Neomake
+"aug end
 
 
 " nerdtree
@@ -169,9 +174,9 @@ let NERDTreeShowHidden=1
 
 
 " MatchTagAlways
-let g:mta_filetypes = {'typescript.jsx': 0, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
-let g:mta_use_matchparen_group = 0
-let g:mta_set_default_matchtag_color = 0
+"let g:mta_filetypes = {'typescript.jsx': 0, 'html' : 1, 'xhtml' : 1, 'xml' : 1}
+"let g:mta_use_matchparen_group = 0
+"let g:mta_set_default_matchtag_color = 0
 " hi MatchTag guifg=black guibg=lightgreen
 
 
