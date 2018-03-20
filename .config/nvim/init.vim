@@ -27,6 +27,9 @@ elseif has('unix')
 endif
 Plug 'junegunn/fzf.vim'
 
+Plug 'tpope/vim-fugitive', { 'on': [] }
+Plug 'airblade/vim-gitgutter'
+
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -55,6 +58,7 @@ Plug 'junegunn/seoul256.vim'
 
 " dir tree
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " code commentary
 Plug 'tpope/vim-commentary'
@@ -71,7 +75,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ts completition
-Plug 'mhartington/nvim-typescript'
+Plug 'mhartington/nvim-typescript', {'branch': 'fix-121'}
 " Plug 'Quramy/tsuquyomi'
 
 " syntax hi for html5, js, jsx, ts, tsx
@@ -87,7 +91,6 @@ Plug 'MaxMEllon/vim-jsx-pretty' " + tsx
 " Plug 'peitalin/vim-jsx-typescript'
 " Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
-" Plug 'leafgarland/typescript-vim'
 
 Plug 'mattn/emmet-vim'
 Plug 'mattn/webapi-vim'
@@ -103,9 +106,14 @@ Plug 'vim-python/python-syntax'
 " refactoring and autoimport
 " Plug 'python-rope/ropevim'
 
+"Plug 'ryanoasis/vim-devicons'
+
 " Initialize plugin system
 call plug#end()
-
+" after a re-source, fix syntax matching issues (concealing brackets):
+if exists('g:loaded_webdevicons')
+  call webdevicons#refresh()
+endif
 
 aug omnifuncs
     au!
@@ -167,6 +175,18 @@ let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules', '.git']
 map <silent> <F4> :NERDTreeFind<CR>
 map <silent> <F5> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 
 " javascript-libraries-syntax.vim
@@ -202,6 +222,9 @@ function! Ssave()
     :SSave
 endfunction
 command! Ssave call Ssave()
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
 
 nnoremap <silent> <leader>s :Startify<CR>
 " aug nerdtree_start_session
@@ -220,7 +243,7 @@ nnoremap <silent> <leader><space> :Files<CR>
 nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>? :History<CR>
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+"imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " Augmenting Ag command using fzf#vim#with_preview function
 "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
@@ -238,6 +261,13 @@ command! -bang -nargs=? -complete=dir Files
 " Add alt-x, alt-c hotkeys for preview scroll
 let s:orig_fzf_default_opts = get(s:, 'orig_fzf_default_opts', $FZF_DEFAULT_OPTS)
 let $FZF_DEFAULT_OPTS = s:orig_fzf_default_opts . ' --bind alt-x:preview-up,alt-c:preview-down'
+
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -P '.shellescape(<q-args>), 0,
+  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
 
 " vim jsx
@@ -265,6 +295,19 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", PATHS['MYSNIPPETS'].MYULTISNIPS_
 let g:indentLine_bufNameExclude = ["term:.*"]
 " highlight conceal color with colorscheme
 " let g:indentLine_setColors = 0
+
+
+" vim-fugitive
+command! Gstatus call LazyLoadFugitive('Gstatus')
+command! Gdiff call LazyLoadFugitive('Gdiff')
+command! Glog call LazyLoadFugitive('Glog')
+command! Gblame call LazyLoadFugitive('Gblame')
+
+function! LazyLoadFugitive(cmd)
+  call plug#load('vim-fugitive')
+  call fugitive#detect(expand('%:p'))
+  exe a:cmd
+endfunction
 
 
 " disable match paren
@@ -298,7 +341,6 @@ augroup vimrc
     autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
 augroup END
 
-
 if (has("termguicolors"))
     set termguicolors
 endif
@@ -307,7 +349,7 @@ syntax enable
 filetype plugin indent on
 language messages C
 let $LANG = 'en'
-set t_Co=256
+"set t_Co=256
 set t_ut=
 colorscheme solarized
 set background=light
@@ -352,7 +394,7 @@ nmap <F7> :bn<cr>
 vmap <F7> <esc>:bn<cr>i
 imap <F7> <esc>:bn<cr>i
 
-"" save file
+" save file
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
@@ -366,6 +408,8 @@ nnoremap <CR> :noh<CR>
 nmap oo o<Esc>
 " forward-delete in insert-mode 
 inoremap <C-d> <Del>
+
+inoremap ;; <Esc>
 
 
 " statusline
@@ -403,4 +447,4 @@ set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
-inoremap <C-l> <C-^>
+"inoremap <C-l> <C-^>
