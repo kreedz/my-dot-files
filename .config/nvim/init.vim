@@ -38,7 +38,8 @@ Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
 
 " syntax
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 
 " display vertical lines for indent
 Plug 'Yggdroot/indentLine'
@@ -75,7 +76,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ts completition
-Plug 'mhartington/nvim-typescript', {'branch': 'fix-121'}
+" Plug 'mhartington/nvim-typescript', {'branch': 'fix-121'}
 " Plug 'Quramy/tsuquyomi'
 
 " syntax hi for html5, js, jsx, ts, tsx
@@ -107,6 +108,10 @@ Plug 'vim-python/python-syntax'
 " Plug 'python-rope/ropevim'
 
 "Plug 'ryanoasis/vim-devicons'
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 
 " Initialize plugin system
 call plug#end()
@@ -156,11 +161,11 @@ set completeopt-=preview
 
 
 " neomake
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
-let g:neomake_python_pep8_exe = 'pep8'
-let g:neomake_open_list = 0
-let g:neomake_echo_current_error = 1
+" let g:neomake_python_enabled_makers = ['flake8']
+" let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
+" let g:neomake_python_pep8_exe = 'pep8'
+" let g:neomake_open_list = 0
+" let g:neomake_echo_current_error = 1
 
 "let neomake_blacklisted_files = ['settings.py']
 "aug neomake_autostart
@@ -308,6 +313,22 @@ function! LazyLoadFugitive(cmd)
   call fugitive#detect(expand('%:p'))
   exe a:cmd
 endfunction
+
+
+" LanguageClient
+" let g:LanguageClient_serverCommands = {
+"     \ 'javascript': ['javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['javascript-typescript-stdio'],
+"     \ 'typescript': ['javascript-typescript-stdio'],
+"     \ }
+
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+
+" ale
+let g:ale_completion_enabled = 1
 
 
 " disable match paren
