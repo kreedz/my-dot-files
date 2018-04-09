@@ -33,7 +33,6 @@ Plug 'airblade/vim-gitgutter'
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/echodoc.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
@@ -322,9 +321,6 @@ function! LazyLoadFugitive(cmd)
   call fugitive#detect(expand('%:p'))
   exe a:cmd
 endfunction
-
-" echodoc
-let g:echodoc#enable_at_startup = 1
 
 
 " LanguageClient
