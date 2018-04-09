@@ -33,6 +33,7 @@ Plug 'airblade/vim-gitgutter'
 " completitions
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/echodoc.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
@@ -107,7 +108,7 @@ Plug 'vim-python/python-syntax'
 " refactoring and autoimport
 " Plug 'python-rope/ropevim'
 
-"Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
@@ -245,9 +246,17 @@ nnoremap <silent> <leader>s :Startify<CR>
 
 " fzf
 nnoremap <silent> <leader><space> :Files<CR>
-nnoremap <silent> <leader>a :Buffers<CR>
-nnoremap <silent> <leader>A :Windows<CR>
-nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>fa :Windows<CR>
+nnoremap <silent> <leader>fh :History<CR>
+nnoremap <silent> <leader>fh :History<CR>
+nnoremap <silent> <leader>fhh :History:<CR>
+nnoremap <silent> <leader>fll :Lines<CR>
+nnoremap <silent> <leader>fl :BLines<CR>
+nnoremap <silent> <leader>fg :GFiles?<CR>
+nnoremap <silent> <leader>fgf :GFiles<CR>
+nnoremap <silent> <leader>fc :BCommits<CR>
+nnoremap <silent> <leader>fcc :Commits<CR>
 "imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " Augmenting Ag command using fzf#vim#with_preview function
@@ -313,6 +322,9 @@ function! LazyLoadFugitive(cmd)
   call fugitive#detect(expand('%:p'))
   exe a:cmd
 endfunction
+
+" echodoc
+let g:echodoc#enable_at_startup = 1
 
 
 " LanguageClient
