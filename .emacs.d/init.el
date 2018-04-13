@@ -1,15 +1,4 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (wombat))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(load-theme 'wombat t)
 
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -22,16 +11,16 @@
 
 ;; placing all files in one directory
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+      `((".*" ., temporary-file-directory)))
 (setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+      `((".*", temporary-file-directory t)))
 ;; automatically purge backup files not accessed in a week
 (message "Deleting old backup files...")
 (let ((week (* 60 60 24 7))
       (current (float-time (current-time))))
   (dolist (file (directory-files temporary-file-directory t))
     (when (and (backup-file-name-p file)
-               (> (- current (float-time (fifth (file-attributes file))))
+               (> (- current (float-time (nth 5 (file-attributes file))))
                   week))
       (message "%s" file)
       (delete-file file))))
@@ -72,4 +61,3 @@
   (next-line arg))
 
 (global-set-key (kbd "C-d") 'duplicate-line)
-
