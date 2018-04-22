@@ -1,4 +1,5 @@
-(load-theme 'wombat t)
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 ;; turn off menu, scroll, tool bars
 (if (display-graphic-p)
@@ -11,8 +12,9 @@
 (setq ring-bell-function 'ignore)
 
 ;; saves the minibuffer history on every Emacs session.
-(savehist-mode 1)
+(setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+(savehist-mode 1)
 
 ;; placing all files in one directory
 (setq backup-directory-alist
@@ -29,6 +31,29 @@
                   week))
       (message "%s" file)
       (delete-file file))))
+
+
+;; list the packages you want
+(setq package-list '(tide web-mode solarized-theme))
+
+;; list the repositories containing them
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
+;; activate all the packages (in particular autoloads)
+(package-initialize)
+
+;; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(require 'solarized-light-theme)
 
 (defun duplicate-line (arg)
   "Duplicate current line, leaving point in lower line."
@@ -53,7 +78,7 @@
             (count arg))
         ;; insert the line arg times
         (while (> count 0)
-          (newline)         ;; because there is no newline in 'line'
+          (newline)         ; because there is no newline in 'line'
           (insert line)
           (setq count (1- count)))
         )
@@ -66,3 +91,34 @@
   (next-line arg))
 
 (global-set-key (kbd "C-d") 'duplicate-line)
+
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(require 'web-mode)
+(require 'flycheck)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
