@@ -1,11 +1,16 @@
 (load-theme 'wombat t)
 
-(tool-bar-mode -1)
-(toggle-scroll-bar -1)
-(menu-bar-mode -1)
+;; turn off menu, scroll, tool bars
+(if (display-graphic-p)
+    (progn
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+      (menu-bar-mode -1)))
 
+;; turn off sounds
 (setq ring-bell-function 'ignore)
 
+;; saves the minibuffer history on every Emacs session.
 (savehist-mode 1)
 (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
 

@@ -2,13 +2,15 @@
 
 MYDOTFILES=~/temp/my-dot-files
 declare -a FILES_TO_BACKUP=(
-    "~/.config/nvim/mysnippets"
-    "~/.config/nvim/init.vim"
     "~/.bin/cpdotfiles.sh"
     "~/.bin/startup.sh"
+    "~/.config/nvim/mysnippets"
+    "~/.config/nvim/init.vim"
+    "~/.emacs.d/init.el"
+    "~/.npmrc"
     "~/.tmuxinator"
     "~/.tmux.conf"
-    "~/.npmrc"
+    "~/.xbindkeysrc"
     "~/.zshrc"
 )
 
