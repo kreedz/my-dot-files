@@ -1,4 +1,4 @@
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (substitute-in-file-name "$HOME/.emacs.d/custom.el"))
 (load custom-file)
 
 ;; turn off menu, scroll, tool bars
@@ -34,7 +34,7 @@
 
 
 ;; list the packages you want
-(setq package-list '(tide web-mode solarized-theme))
+(setq package-list '(tide web-mode company add-node-modules-path solarized-theme))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -92,6 +92,8 @@
 
 (global-set-key (kbd "C-d") 'duplicate-line)
 
+(eval-after-load 'web-mode
+  '(add-hook 'web-mode-hook #'add-node-modules-path))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -110,7 +112,6 @@
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
-
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 (require 'web-mode)
@@ -122,3 +123,4 @@
               (setup-tide-mode))))
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
+
