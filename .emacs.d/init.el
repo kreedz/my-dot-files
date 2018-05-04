@@ -95,6 +95,9 @@
 (eval-after-load 'web-mode
   '(add-hook 'web-mode-hook #'add-node-modules-path))
 
+(eval-after-load 'typescript-mode
+  '(add-hook 'typescript-mode-hook #'add-node-modules-path))
+
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
