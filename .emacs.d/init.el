@@ -34,7 +34,7 @@
 
 
 ;; list the packages you want
-(setq package-list '(tide web-mode company add-node-modules-path solarized-theme))
+(setq package-list '(add-node-modules-path company evil solarized-theme tide web-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -127,3 +127,6 @@
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
 
+
+(require 'evil)
+(evil-mode 1)
