@@ -11,6 +11,9 @@
 ;; turn off sounds
 (setq ring-bell-function 'ignore)
 
+;; make unix lineendings default
+(setq default-buffer-file-coding-system 'utf-8-unix)
+
 ;; saves the minibuffer history on every Emacs session.
 (setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
@@ -34,7 +37,7 @@
 
 
 ;; list the packages you want
-(setq package-list '(add-node-modules-path company evil evil-leader js2-mode solarized-theme tide web-mode))
+(setq package-list '(add-node-modules-path company evil evil-leader git-gutter js2-mode magit solarized-theme tide web-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -173,3 +176,25 @@
 ;; configure jsx-tide checker to run after your default jsx checker
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+
+
+;; git
+(global-git-gutter-mode +1)
+
+;; Jump to next/previous hunk
+(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+
+;; Stage current hunk
+(global-set-key (kbd "C-x v s") 'git-gutter:stage-hunk)
+
+;; Revert current hunk
+(global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
+
+;; live updateing
+(custom-set-variables
+ '(git-gutter:update-interval 2))
+
+;; don't ask about commit/revert
+(custom-set-variables
+ '(git-gutter:ask-p nil))
