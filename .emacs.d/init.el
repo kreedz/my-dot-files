@@ -100,6 +100,20 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "fs" 'save-buffer)
 
+;; change mode-line color by evil state
+(require 'cl)
+(lexical-let ((default-color (cons (face-background 'mode-line)
+                                  (face-foreground 'mode-line))))
+ (add-hook 'post-command-hook
+   (lambda ()
+     (let ((color (cond ((minibufferp) default-color)
+                        ((evil-insert-state-p) '("#a6a6a6" . "#ffffff")) ; grey
+                        ((evil-emacs-state-p)  '("#444488" . "#ffffff")) ; purple
+                        ((buffer-modified-p)   '("#006fa0" . "#ffffff")) ; blue
+                        (t default-color))))
+          (set-face-background 'mode-line (car color))
+          (set-face-foreground 'mode-line (cdr color))))))
+
 
 ;; add-node-modules-path
 (eval-after-load 'web-mode
