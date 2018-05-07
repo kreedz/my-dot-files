@@ -34,7 +34,7 @@
 
 
 ;; list the packages you want
-(setq package-list '(add-node-modules-path company evil solarized-theme tide web-mode))
+(setq package-list '(add-node-modules-path company evil evil-leader js2-mode solarized-theme tide web-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -92,12 +92,24 @@
 
 (global-set-key (kbd "C-d") 'duplicate-line)
 
+
+;; evil
+(require 'evil)
+(global-evil-leader-mode)
+(evil-mode 1)
+(evil-leader/set-leader "<SPC>")
+(evil-leader/set-key "fs" 'save-buffer)
+
+
+;; add-node-modules-path
 (eval-after-load 'web-mode
   '(add-hook 'web-mode-hook #'add-node-modules-path))
 
 (eval-after-load 'typescript-mode
   '(add-hook 'typescript-mode-hook #'add-node-modules-path))
 
+
+;; tide
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -117,6 +129,7 @@
 (add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
+;; tsx
 (require 'web-mode)
 (require 'flycheck)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -128,5 +141,21 @@
 (flycheck-add-mode 'typescript-tslint 'web-mode)
 
 
-(require 'evil)
-(evil-mode 1)
+;; js
+(require 'js2-mode)
+(require 'tide)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+(add-hook 'js2-mode-hook #'setup-tide-mode)
+;; configure javascript-tide checker to run after your default javascript checker
+(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+
+;; jsx
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; configure jsx-tide checker to run after your default jsx checker
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
