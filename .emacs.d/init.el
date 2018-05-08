@@ -201,3 +201,6 @@
 ;; don't ask about commit/revert
 (custom-set-variables
  '(git-gutter:ask-p nil))
+
+;; magit
+(global-set-key (kbd "C-c g") 'magit-status)
