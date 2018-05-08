@@ -12,7 +12,10 @@
 (setq ring-bell-function 'ignore)
 
 ;; make unix lineendings default
-(setq default-buffer-file-coding-system 'utf-8-unix)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
 
 ;; saves the minibuffer history on every Emacs session.
 (setq savehist-save-minibuffer-history 1)
