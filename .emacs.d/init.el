@@ -1,6 +1,8 @@
 (setq custom-file (substitute-in-file-name "$HOME/.emacs.d/custom.el"))
 (load custom-file)
 
+(setq-default frame-title-format '("%b [%m]"))
+
 ;; turn off menu, scroll, tool bars
 (if (display-graphic-p)
     (progn
