@@ -42,7 +42,18 @@
 
 
 ;; list the packages you want
-(setq package-list '(add-node-modules-path company evil evil-leader git-gutter js2-mode magit solarized-theme tide web-mode))
+(setq package-list
+      '(add-node-modules-path
+	company
+	evil
+	evil-leader
+	git-gutter
+	ivy
+	js2-mode
+	magit
+	solarized-theme
+	tide
+	web-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -101,7 +112,15 @@
 (global-set-key (kbd "C-d") 'duplicate-line)
 
 
+;; ediff
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; to make ediff to be horizontally split
+(setq ediff-split-window-function 'split-window-horizontally)
+
+
 ;; evil
+(setq evil-want-C-u-scroll t)
 (require 'evil)
 (global-evil-leader-mode)
 (evil-mode 1)
@@ -206,3 +225,9 @@
 
 ;; magit
 (global-set-key (kbd "C-c g") 'magit-status)
+
+
+;; ivy
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
