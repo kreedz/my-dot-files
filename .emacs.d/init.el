@@ -46,11 +46,13 @@
       '(add-node-modules-path
 	company
 	counsel
+	counsel-projectile
 	evil
 	evil-leader
 	git-gutter
 	js2-mode
 	magit
+	projectile
 	solarized-theme
 	tide
 	web-mode))
@@ -240,3 +242,7 @@
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> b") 'counsel-descbinds)
+
+
+;; projectile
+(add-hook 'web-mode-hook 'counsel-projectile-mode)
