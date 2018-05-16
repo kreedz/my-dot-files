@@ -246,3 +246,5 @@
 
 ;; projectile
 (add-hook 'web-mode-hook 'counsel-projectile-mode)
+(setq projectile-completion-system 'ivy)
+(setq projectile-indexing-method 'alien)
