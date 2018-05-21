@@ -74,6 +74,13 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+
+;; indicate line length
+(setq whitespace-line-column 80)
+(setq whitespace-style '(face lines-tail))
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+
 (require 'solarized-light-theme)
 
 (defun duplicate-line (arg)
