@@ -80,6 +80,8 @@
 (setq whitespace-style '(face lines-tail))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
+(setq-default indent-tabs-mode nil)
+
 
 (require 'solarized-light-theme)
 
