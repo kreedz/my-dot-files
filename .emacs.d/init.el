@@ -24,6 +24,8 @@
 (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
 (savehist-mode 1)
 
+;; turn off lock files
+(setq create-lockfiles nil)
 ;; placing all files in one directory
 (setq backup-directory-alist
       `((".*" ., temporary-file-directory)))
