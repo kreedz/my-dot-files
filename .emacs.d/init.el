@@ -46,18 +46,19 @@
 ;; list the packages you want
 (setq package-list
       '(add-node-modules-path
-	company
-	counsel
-	counsel-projectile
-	evil
-	evil-leader
-	git-gutter
-	js2-mode
-	magit
-	projectile
-	solarized-theme
-	tide
-	web-mode))
+        company
+        counsel
+        counsel-projectile
+        evil
+        evil-collection
+        evil-leader
+        git-gutter
+        js2-mode
+        magit
+        projectile
+        solarized-theme
+        tide
+        web-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -134,11 +135,14 @@
 
 ;; evil
 (setq evil-want-C-u-scroll t)
+(setq evil-want-integration nil) ;; required by evil-collection
 (require 'evil)
 (global-evil-leader-mode)
 (evil-mode 1)
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "fs" 'save-buffer)
+
+(evil-collection-init 'tide)
 
 ;; change mode-line color by evil state
 (require 'cl)
