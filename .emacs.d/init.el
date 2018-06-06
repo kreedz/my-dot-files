@@ -56,6 +56,7 @@
         js2-mode
         magit
         projectile
+        smartparens
         solarized-theme
         tide
         web-mode))
@@ -263,3 +264,15 @@
 (add-hook 'web-mode-hook 'counsel-projectile-mode)
 (setq projectile-completion-system 'ivy)
 (setq projectile-indexing-method 'alien)
+
+
+;; smartparens
+(require 'smartparens-config)
+;; Always start smartparens mode in js-mode.
+(add-hook 'prog-mode-hook #'smartparens-mode)
+
+(with-eval-after-load 'smartparens
+  (sp-with-modes
+      '(typescript-mode web-mode)
+    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))
+    (sp-local-pair "(" nil :post-handlers '(:add ("||\n[i]" "RET")))))
