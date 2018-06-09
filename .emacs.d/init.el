@@ -146,7 +146,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "fs" 'save-buffer)
 
-(evil-collection-init 'tide)
+(evil-collection-init '(dired tide))
 
 ;; change mode-line color by evil state
 (require 'cl)
@@ -290,7 +290,6 @@
 (global-set-key (kbd "C-x t C-t") 'treemacs-find-file)
 (global-set-key (kbd "C-x t M-t") 'treemacs-find-tag)
 (with-eval-after-load 'treemacs
-  (message "hello")
   (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
         treemacs-file-event-delay           5000
         treemacs-follow-after-init          t
