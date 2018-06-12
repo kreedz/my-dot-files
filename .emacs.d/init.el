@@ -49,6 +49,7 @@
         company
         counsel
         counsel-projectile
+        emmet-mode
         evil
         evil-collection
         evil-leader
@@ -164,12 +165,21 @@
       (set-face-background 'mode-line (car color))
       (set-face-foreground 'mode-line (cdr color))))))
 
+
 ;; flychek
 (require 'flycheck)
 (with-eval-after-load 'flycheck
   (setcar
     (memq 'source-inplace (flycheck-checker-get 'typescript-tslint 'command))
     'source-original))
+
+
+;; web-mode
+(with-eval-after-load 'web-mode
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-column-highlight t)
+  (set-face-background 'web-mode-current-element-highlight-face "#e9e1c9"))
+  (set-face-background 'web-mode-current-column-highlight-face "#e9e1c9"))
 
 
 ;; add-node-modules-path
@@ -336,3 +346,17 @@
 (require 'yasnippet)
 (yas-reload-all)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
+
+
+;; emmet-mode
+(add-hook 'web-mode-hook 'emmet-mode)
+(with-eval-after-load 'emmet-mode
+  (add-hook 'emmet-mode-hook #'setup-emmet-mode))
+
+(defun setup-emmet-mode ()
+  (setq emmet-expand-jsx-className? t)
+  (setq emmet-move-cursor-between-quotes t)
+  (evil-define-key 'insert web-mode-map (kbd "C-y") 'emmet-expand-line)
+  (defadvice emmet-expand-line (after evil-normal-state activate)
+    "Enable Normal state after expansion"
+    (evil-normal-state)))
