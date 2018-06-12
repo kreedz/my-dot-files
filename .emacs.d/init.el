@@ -62,6 +62,8 @@
         treemacs
         treemacs-evil
         treemacs-projectile
+        yasnippet
+        yasnippet-snippets
         web-mode))
 
 ;; list the repositories containing them
@@ -162,13 +164,20 @@
       (set-face-background 'mode-line (car color))
       (set-face-foreground 'mode-line (cdr color))))))
 
+;; flychek
+(require 'flycheck)
+(with-eval-after-load 'flycheck
+  (setcar
+    (memq 'source-inplace (flycheck-checker-get 'typescript-tslint 'command))
+    'source-original))
+
 
 ;; add-node-modules-path
-(eval-after-load 'web-mode
-  '(add-hook 'web-mode-hook #'add-node-modules-path))
+(with-eval-after-load 'web-mode
+  (add-hook 'web-mode-hook #'add-node-modules-path))
 
-(eval-after-load 'typescript-mode
-  '(add-hook 'typescript-mode-hook #'add-node-modules-path))
+(with-eval-after-load 'typescript-mode
+  (add-hook 'typescript-mode-hook #'add-node-modules-path))
 
 
 ;; tide
@@ -179,6 +188,7 @@
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
+  (yas-activate-extra-mode 'typescript-mode)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
@@ -193,7 +203,6 @@
 
 ;; tsx
 (require 'web-mode)
-(require 'flycheck)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
@@ -321,3 +330,9 @@
 
   (require 'treemacs-evil)
   (require 'treemacs-projectile))
+
+
+;; yasnippet
+(require 'yasnippet)
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
