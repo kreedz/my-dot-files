@@ -178,7 +178,7 @@
 (with-eval-after-load 'web-mode
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
-  (set-face-background 'web-mode-current-element-highlight-face "#e9e1c9"))
+  (set-face-background 'web-mode-current-element-highlight-face "#e9e1c9")
   (set-face-background 'web-mode-current-column-highlight-face "#e9e1c9"))
 
 
