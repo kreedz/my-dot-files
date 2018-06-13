@@ -55,6 +55,7 @@
         evil-collection
         evil-leader
         git-gutter
+        ivy-yasnippet
         js2-mode
         magit
         projectile
@@ -150,7 +151,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "fs" 'save-buffer)
 
-(evil-collection-init '(dired tide))
+(evil-collection-init '(company dired tide))
 
 ;; change mode-line color by evil state
 (require 'cl)
@@ -203,6 +204,7 @@
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
+  (setq-local company-backends '((company-tide)))
   (company-mode +1))
 
 ;; aligns annotation to the right hand side
@@ -349,6 +351,11 @@
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
 
+;; ivy-yasnippet
+(with-eval-after-load 'yasnippet
+  (evil-define-key 'insert yas-minor-mode-map (kbd "C-c y") #'ivy-yasnippet))
+
+
 ;; emmet-mode
 (add-hook 'web-mode-hook 'emmet-mode)
 (with-eval-after-load 'emmet-mode
@@ -371,4 +378,23 @@
                           (bookmarks . 5)
                           (projects . 5))))
 
+
+;; emacs lisp mode
 (evil-define-key 'normal emacs-lisp-mode-map (kbd "TAB") #'indent-for-tab-command)
+
+
+;; company
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(with-eval-after-load 'company
+  (setq company-require-match 'nil);
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
