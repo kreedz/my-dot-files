@@ -49,6 +49,7 @@
         company
         counsel
         counsel-projectile
+        dashboard
         emmet-mode
         evil
         evil-collection
@@ -360,3 +361,14 @@
   (defadvice emmet-expand-line (after evil-normal-state activate)
     "Enable Normal state after expansion"
     (evil-normal-state)))
+
+
+;; dashboard
+(require 'dashboard)
+(with-eval-after-load 'dashboard
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents  . 5)
+                          (bookmarks . 5)
+                          (projects . 5))))
+
+(evil-define-key 'normal emacs-lisp-mode-map (kbd "TAB") #'indent-for-tab-command)
