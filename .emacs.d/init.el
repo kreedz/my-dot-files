@@ -62,6 +62,7 @@
         git-gutter
         ivy-yasnippet
         js2-mode
+        json-mode
         magit
         projectile
         smartparens
