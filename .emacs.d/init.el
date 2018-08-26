@@ -10,6 +10,9 @@
       (scroll-bar-mode -1)
       (menu-bar-mode -1)))
 
+;; undo/redo window configuration
+(winner-mode 1)
+
 ;; turn off sounds
 (setq ring-bell-function 'ignore)
 
@@ -18,6 +21,8 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+
+(setq column-number-mode t)
 
 ;; saves the minibuffer history on every Emacs session.
 (setq savehist-save-minibuffer-history 1)
@@ -88,7 +93,7 @@
 
 
 ;; indicate line length
-(setq whitespace-line-column 80)
+(setq whitespace-line-column 120)
 (setq whitespace-style '(face lines-tail))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
@@ -204,7 +209,7 @@
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
-  (setq-local company-backends '((company-tide)))
+  (setq-local company-backends '((company-tide company-dabbrev)))
   (company-mode +1))
 
 ;; aligns annotation to the right hand side
