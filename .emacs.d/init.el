@@ -47,6 +47,13 @@
       (message "%s" file)
       (delete-file file))))
 
+;; set encoding for windows system shell
+(when (eq system-type 'windows-nt)
+  (progn
+    (defun my-windows-system-shell-advice (arg)
+      (set-buffer-process-coding-system 'cp1251 'cp1251))
+    (advice-add 'shell :after 'my-windows-system-shell-advice)))
+
 
 ;; list the packages you want
 (setq package-list
