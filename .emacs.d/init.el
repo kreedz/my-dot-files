@@ -70,6 +70,7 @@
         ivy-yasnippet
         js2-mode
         json-mode
+        key-chord
         magit
         projectile
         smartparens
@@ -411,3 +412,9 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+
+
+;; exit insert mode by pressing j and then k quickly
+(setq key-chord-two-keys-delay 0.5)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-mode 1)
