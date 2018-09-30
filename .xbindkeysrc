@@ -33,3 +33,7 @@
 "mpc seek -00:00:05"
     m:0x18 + c:113
     Alt+Mod2 + Left
+
+"xset r off; xdotool keyup --window 0 space key --clearmodifiers --window 0 KP_Enter; xset r on"
+   m:0x11 + c:65
+   Shift+Mod2 + space
