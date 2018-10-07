@@ -144,7 +144,7 @@ function initnvmenv() {
 }
 
 
-
+function f() { feh_browser.sh "$1" -FZd&; }
 
 
 # setopt autocd
