@@ -81,7 +81,8 @@
         treemacs-projectile
         yasnippet
         yasnippet-snippets
-        web-mode))
+        web-mode
+        which-key))
 
 ;; list the repositories containing them
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -413,6 +414,8 @@
   (setq company-minimum-prefix-length 2)
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
 
+;; which-key
+(which-key-mode)
 
 ;; exit insert mode by pressing j and then k quickly
 (setq key-chord-two-keys-delay 0.5)
