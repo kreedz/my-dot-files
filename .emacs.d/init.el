@@ -59,6 +59,7 @@
 (setq package-list
       '(add-node-modules-path
         company
+        company-web
         counsel
         counsel-projectile
         dashboard
@@ -166,7 +167,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "fs" 'save-buffer)
 
-(evil-collection-init '(company dired tide))
+(evil-collection-init '(company dired ibuffer tide))
 
 ;; change mode-line color by evil state
 (require 'cl)
@@ -258,6 +259,16 @@
 ;; configure jsx-tide checker to run after your default jsx checker
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+
+
+;; html
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "html" (file-name-extension buffer-file-name))
+              (progn
+                (setq-local company-backends '(company-web-html))
+                (company-mode +1)))))
 
 
 ;; git
@@ -425,3 +436,6 @@
 ;; making C-x easier to hit
 (define-key key-translation-map [?\C-x] [?\C-u])
 (define-key key-translation-map [?\C-u] [?\C-x])
+
+;; buffer
+(global-set-key (kbd "C-x C-b") 'ibuffer)
