@@ -265,11 +265,16 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
-            (when (string-equal "html" (file-name-extension buffer-file-name))
-              (progn
-                (setq-local company-backends '(company-web-html))
-                (company-mode +1)))))
-
+            (when (string-match "html?$" (file-name-extension buffer-file-name))
+              (setq-local company-backends '(company-web-html))
+              (company-mode +1))))
+(with-eval-after-load 'flycheck
+  (flycheck-add-mode 'html-tidy 'web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-match "html?$" (file-name-extension buffer-file-name))
+              (flycheck-select-checker 'html-tidy)
+              (flycheck-mode +1))))
 
 ;; git
 (global-git-gutter-mode +1)
