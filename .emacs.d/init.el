@@ -276,6 +276,22 @@
               (flycheck-select-checker 'html-tidy)
               (flycheck-mode +1))))
 
+;; css
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "css" (file-name-extension buffer-file-name))
+              (setq-local company-backends '(company-css))
+              (company-mode +1))))
+(with-eval-after-load 'flycheck
+(flycheck-add-mode 'css-stylelint 'web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "css" (file-name-extension buffer-file-name))
+              (flycheck-select-checker 'css-stylelint)
+              (flycheck-mode +1))))
+
+
 ;; git
 (global-git-gutter-mode +1)
 
