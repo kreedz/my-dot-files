@@ -48,6 +48,7 @@ alias off='sudo shutdown -h now'
 alias xclip='xclip -selection clip'
 alias music='mpd && mpdcron && ncmpcpp'
 alias n=nvim
+alias e=emacs
 # alias mc="export TERM=screen-256color && mc && export TERM=xterm-256color"
 
 alias -s {avi,mpeg,mpg,mov,m2v,mkv}=mpv
@@ -61,6 +62,13 @@ alias gc='git commit -v'
 alias gcmsg='git commit -m'
 alias ga='git add'
 alias gdi='git diff'
+
+# places
+alias cdc='cd ~/captions'
+alias cdf='cd ~/Files/1/films'
+alias cdm='cd ~/Files/music'
+alias cdt='cd /media/truecrypt1'
+alias cdv='cd ~/Files/1/films/video'
 
 # history
 HISTFILE=~/.zsh/zsh_history
