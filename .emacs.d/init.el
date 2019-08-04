@@ -77,9 +77,6 @@
         smartparens
         solarized-theme
         tide
-        treemacs
-        treemacs-evil
-        treemacs-projectile
         yasnippet
         yasnippet-snippets
         web-mode
@@ -160,7 +157,8 @@
 
 ;; evil
 (setq evil-want-C-u-scroll t)
-(setq evil-want-integration nil) ;; required by evil-collection
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
 (require 'evil)
 (global-evil-leader-mode)
 (evil-mode 1)
@@ -349,48 +347,6 @@
       '(typescript-mode web-mode)
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))
     (sp-local-pair "(" nil :post-handlers '(:add ("||\n[i]" "RET")))))
-
-
-;; treemacs
-(global-set-key (kbd "M-0") 'treemacs-select-window)
-(global-set-key (kbd "C-x t 1") 'treemacs-delete-other-windows)
-(global-set-key (kbd "C-x t t") 'treemacs)
-(global-set-key (kbd "C-x t B") 'treemacs-bookmark)
-(global-set-key (kbd "C-x t C-t") 'treemacs-find-file)
-(global-set-key (kbd "C-x t M-t") 'treemacs-find-tag)
-(with-eval-after-load 'treemacs
-  (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-        treemacs-file-event-delay           5000
-        treemacs-follow-after-init          t
-        treemacs-follow-recenter-distance   0.1
-        treemacs-goto-tag-strategy          'refetch-index
-        treemacs-indentation                2
-        treemacs-indentation-string         " "
-        treemacs-is-never-other-window      nil
-        treemacs-no-png-images              nil
-        treemacs-project-follow-cleanup     nil
-        treemacs-recenter-after-file-follow nil
-        treemacs-recenter-after-tag-follow  nil
-        treemacs-show-hidden-files          t
-        treemacs-silent-filewatch           nil
-        treemacs-silent-refresh             nil
-        treemacs-sorting                    'alphabetic-desc
-        treemacs-tag-follow-cleanup         t
-        treemacs-tag-follow-delay           1.5
-        treemacs-width                      35)
-
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (pcase (cons (not (null (executable-find "git")))
-                (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'extended))
-    (`(t . _)
-     (treemacs-git-mode 'simple)))
-
-  (require 'treemacs-evil)
-  (require 'treemacs-projectile))
-
 
 ;; yasnippet
 (require 'yasnippet)
