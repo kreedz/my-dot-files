@@ -74,6 +74,7 @@
         key-chord
         magit
         projectile
+        rainbow-mode
         smartparens
         solarized-theme
         tide
@@ -197,6 +198,7 @@
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
+  (rainbow-mode +1)
   (set-face-background 'web-mode-current-element-highlight-face "#e9e1c9")
   (set-face-background 'web-mode-current-column-highlight-face "#e9e1c9"))
 (with-eval-after-load 'web-mode
