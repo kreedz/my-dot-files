@@ -191,11 +191,16 @@
 
 
 ;; web-mode
-(with-eval-after-load 'web-mode
+(defun my-web-mode-hook ()
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2)
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
   (set-face-background 'web-mode-current-element-highlight-face "#e9e1c9")
   (set-face-background 'web-mode-current-column-highlight-face "#e9e1c9"))
+(with-eval-after-load 'web-mode
+  (add-hook 'web-mode-hook 'my-web-mode-hook))
 
 
 ;; add-node-modules-path
@@ -282,7 +287,7 @@
               (setq-local company-backends '(company-css))
               (company-mode +1))))
 (with-eval-after-load 'flycheck
-(flycheck-add-mode 'css-stylelint 'web-mode))
+  (flycheck-add-mode 'css-stylelint 'web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "css" (file-name-extension buffer-file-name))
