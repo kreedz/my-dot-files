@@ -222,14 +222,9 @@
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (yas-activate-extra-mode 'typescript-mode)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (setq-local company-backends '((company-tide company-dabbrev)))
+  (setq-local company-backends '((company-tide)))
   (company-mode +1))
 
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
@@ -251,7 +246,10 @@
 (require 'tide)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-(add-hook 'js2-mode-hook #'setup-tide-mode)
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (setq-local tide-filter-out-warning-completions t)
+            (setup-tide-mode)))
 ;; configure javascript-tide checker to run after your default javascript checker
 (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
 
@@ -394,7 +392,7 @@
 
 
 ;; company
-(defvar company-mode/enable-yas t
+(defvar company-mode/enable-yas nil
   "Enable yasnippet for all backends.")
 
 (defun company-mode/backend-with-yas (backend)
@@ -406,6 +404,7 @@
 (with-eval-after-load 'company
   (setq company-require-match 'nil);
   (setq company-idle-delay 0)
+  (setq company-tooltip-align-annotations t)
   (setq company-minimum-prefix-length 2)
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
 
