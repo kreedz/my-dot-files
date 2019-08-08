@@ -223,12 +223,14 @@
   (tide-hl-identifier-mode +1)
   (yas-activate-extra-mode 'typescript-mode)
   (setq-local company-backends '((company-tide)))
-  (company-mode +1))
+  (company-mode +1)
+  (add-hook 'hack-local-variables-hook
+            (lambda ()
+              (when (or (not (boundp 'tide-format-before-save-enabled)) tide-format-before-save-enabled))
+                (add-hook 'before-save-hook 'tide-format-before-save))))
 
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
 
 ;; tsx
 (require 'web-mode)
