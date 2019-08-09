@@ -148,6 +148,33 @@
 
 (global-set-key (kbd "C-d") 'duplicate-line)
 
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+         (next-win-buffer (window-buffer (next-window)))
+         (this-win-edges (window-edges (selected-window)))
+         (next-win-edges (window-edges (next-window)))
+         (this-win-2nd (not (and (<= (car this-win-edges)
+                     (car next-win-edges))
+                     (<= (cadr this-win-edges)
+                     (cadr next-win-edges)))))
+         (splitter
+          (if (= (car this-win-edges)
+             (car (window-edges (next-window))))
+          'split-window-horizontally
+        'split-window-vertically)))
+    (delete-other-windows)
+    (let ((first-win (selected-window)))
+      (funcall splitter)
+      (if this-win-2nd (other-window 1))
+      (set-window-buffer (selected-window) this-win-buffer)
+      (set-window-buffer (next-window) next-win-buffer)
+      (select-window first-win)
+      (if this-win-2nd (other-window 1))))))
+
+(global-set-key (kbd "C-x |") 'toggle-window-split)
+
 
 ;; ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -246,25 +273,26 @@
 ;; js
 (require 'js2-mode)
 (require 'tide)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook
           (lambda ()
             (setq-local tide-filter-out-warning-completions t)
-            (setup-tide-mode)))
-;; configure javascript-tide checker to run after your default javascript checker
-(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+            (setup-tide-mode)
+            ;; configure javascript-tide checker to run after your default javascript checker
+            (flycheck-add-mode 'javascript-eslint 'web-mode)
+            (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)))
 
 ;; jsx
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "jsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-;; configure jsx-tide checker to run after your default jsx checker
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
-
+              (setup-tide-mode)
+              (setq-local tide-filter-out-warning-completions t)
+              ;; configure jsx-tide checker to run after your default jsx checker
+              (flycheck-add-mode 'javascript-eslint 'web-mode)
+              (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))))
 
 ;; html
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -272,28 +300,18 @@
           (lambda ()
             (when (string-match "html?$" (file-name-extension buffer-file-name))
               (setq-local company-backends '(company-web-html))
-              (company-mode +1))))
-(with-eval-after-load 'flycheck
-  (flycheck-add-mode 'html-tidy 'web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-match "html?$" (file-name-extension buffer-file-name))
+              (company-mode +1)
               (flycheck-select-checker 'html-tidy)
               (flycheck-mode +1))))
 
 ;; css
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-hook 'web-mode-hook
+(add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+(add-hook 'css-mode-hook
           (lambda ()
             (when (string-equal "css" (file-name-extension buffer-file-name))
               (setq-local company-backends '(company-css))
-              (company-mode +1))))
-(with-eval-after-load 'flycheck
-  (flycheck-add-mode 'css-stylelint 'web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "css" (file-name-extension buffer-file-name))
-              (flycheck-select-checker 'css-stylelint)
+              (company-mode +1)
+              (flycheck-add-mode 'css-stylelint 'css-mode)
               (flycheck-mode +1))))
 
 
