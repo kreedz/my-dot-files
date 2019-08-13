@@ -57,8 +57,7 @@
 
 ;; list the packages you want
 (setq package-list
-      '(add-node-modules-path
-        company
+      '(company
         company-web
         counsel
         counsel-projectile
@@ -213,9 +212,20 @@
 ;; flychek
 (require 'flycheck)
 (with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'my-use-eslint-from-node-modules)
   (setcar
     (memq 'source-inplace (flycheck-checker-get 'typescript-tslint 'command))
     'source-original))
+
+(defun my-use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/.bin/eslint.cmd"
+                                        root))))
+    (when (and eslint (file-exists-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
 
 
 ;; web-mode
@@ -230,14 +240,6 @@
   (set-face-background 'web-mode-current-column-highlight-face "#e9e1c9"))
 (with-eval-after-load 'web-mode
   (add-hook 'web-mode-hook 'my-web-mode-hook))
-
-
-;; add-node-modules-path
-(with-eval-after-load 'web-mode
-  (add-hook 'web-mode-hook #'add-node-modules-path))
-
-(with-eval-after-load 'typescript-mode
-  (add-hook 'typescript-mode-hook #'add-node-modules-path))
 
 
 ;; tide
