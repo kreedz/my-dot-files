@@ -313,6 +313,17 @@
               (flycheck-add-mode 'css-stylelint 'css-mode)
               (flycheck-mode +1))))
 
+;; less
+(add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
+(add-hook 'less-css-mode-hook
+          (lambda ()
+            (when (string-equal "less" (file-name-extension buffer-file-name))
+              (setq-local company-backends '(company-css))
+              (setq css-indent-offset 2)
+              (company-mode +1)
+              (flycheck-add-next-checker 'less 'less-stylelint 'append)
+              (flycheck-mode +1))))
+
 
 ;; git
 (global-git-gutter-mode +1)
