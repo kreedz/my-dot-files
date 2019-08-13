@@ -265,9 +265,8 @@
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-;; enable typescript-tslint checker
-(flycheck-add-mode 'typescript-tslint 'web-mode)
+              (setup-tide-mode)
+              (flycheck-add-mode 'typescript-tslint 'web-mode))))
 
 
 ;; js
