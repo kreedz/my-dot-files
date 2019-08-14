@@ -302,7 +302,7 @@
             (when (string-match "html?$" (file-name-extension buffer-file-name))
               (setq-local company-backends '(company-web-html))
               (company-mode +1)
-              (flycheck-select-checker 'html-tidy)
+              (flycheck-add-mode 'html-tidy 'web-mode)
               (flycheck-mode +1))))
 
 ;; css
