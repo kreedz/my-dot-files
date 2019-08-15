@@ -212,20 +212,28 @@
 ;; flychek
 (require 'flycheck)
 (with-eval-after-load 'flycheck
-  (add-hook 'flycheck-mode-hook #'my-use-eslint-from-node-modules)
+  (add-hook 'flycheck-mode-hook #'my-use-flycheck-linters-from-node-modules)
   (setcar
     (memq 'source-inplace (flycheck-checker-get 'typescript-tslint 'command))
     'source-original))
 
-(defun my-use-eslint-from-node-modules ()
-  (let* ((root (locate-dominating-file
+(setq my-flycheck-executable-linters
+      '((eslint flycheck-javascript-eslint-executable)
+        (stylelint flycheck-css-stylelint-executable)
+        (stylelint flycheck-less-stylelint-executable)
+        (lessc flycheck-less-executable)
+        (tslint flycheck-typescript-tslint-executable)))
+
+(defun my-use-flycheck-linters-from-node-modules ()
+  (let ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/.bin/eslint.cmd"
-                                        root))))
-    (when (and eslint (file-exists-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+                "node_modules")))
+    (dolist (linter my-flycheck-executable-linters)
+      (let* ((linter-name (car linter))
+        (linter-exe (car (cdr linter)))
+        (linter-location (and root (expand-file-name (format "node_modules/.bin/%s.cmd" linter-name) root))))
+        (when (and linter-location (file-exists-p linter-location))
+          (customize-set-variable linter-exe linter-location))))))
 
 
 ;; web-mode
@@ -280,7 +288,6 @@
           (lambda ()
             (setq-local tide-filter-out-warning-completions t)
             (setup-tide-mode)
-            ;; configure javascript-tide checker to run after your default javascript checker
             (flycheck-add-mode 'javascript-eslint 'web-mode)
             (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)))
 
@@ -291,7 +298,6 @@
             (when (string-equal "jsx" (file-name-extension buffer-file-name))
               (setup-tide-mode)
               (setq-local tide-filter-out-warning-completions t)
-              ;; configure jsx-tide checker to run after your default jsx checker
               (flycheck-add-mode 'javascript-eslint 'web-mode)
               (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))))
 
