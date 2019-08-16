@@ -225,13 +225,15 @@
         (tslint flycheck-typescript-tslint-executable)))
 
 (defun my-use-flycheck-linters-from-node-modules ()
-  (let ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules")))
+  (let ((root (locate-dominating-file (or (buffer-file-name) default-directory)
+                                      "node_modules")))
     (dolist (linter my-flycheck-executable-linters)
       (let* ((linter-name (car linter))
-        (linter-exe (car (cdr linter)))
-        (linter-location (and root (expand-file-name (format "node_modules/.bin/%s.cmd" linter-name) root))))
+             (linter-exe (car (cdr linter)))
+             (linter-location (and root (expand-file-name (format "node_modules/.bin/%s%s"
+                                                                  linter-name
+                                                                  (if (eq system-type 'windows-nt) ".cmd" ""))
+                                                          root))))
         (when (and linter-location (file-exists-p linter-location))
           (customize-set-variable linter-exe linter-location))))))
 
