@@ -226,13 +226,14 @@
 
 (defun my-use-flycheck-linters-from-node-modules ()
   (let ((root (locate-dominating-file (or (buffer-file-name) default-directory)
-                                      "node_modules")))
+                                      "node_modules"))
+        (bin-ext (if (eq system-type 'windows-nt) ".cmd" "")))
     (dolist (linter my-flycheck-executable-linters)
       (let* ((linter-name (car linter))
              (linter-exe (car (cdr linter)))
              (linter-location (and root (expand-file-name (format "node_modules/.bin/%s%s"
                                                                   linter-name
-                                                                  (if (eq system-type 'windows-nt) ".cmd" ""))
+                                                                  bin-ext)
                                                           root))))
         (when (and linter-location (file-exists-p linter-location))
           (customize-set-variable linter-exe linter-location))))))
