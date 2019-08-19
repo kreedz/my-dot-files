@@ -320,6 +320,7 @@
           (lambda ()
             (when (string-equal "css" (file-name-extension buffer-file-name))
               (setq-local company-backends '(company-css))
+              (setq css-indent-offset 2)
               (company-mode +1)
               (flycheck-add-mode 'css-stylelint 'css-mode)
               (flycheck-mode +1))))
