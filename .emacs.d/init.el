@@ -395,7 +395,7 @@
 
 (with-eval-after-load 'smartparens
   (sp-with-modes
-      '(typescript-mode web-mode)
+      '(css-mode js2-mode less-css-mode typescript-mode web-mode)
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))
     (sp-local-pair "(" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
