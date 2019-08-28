@@ -154,7 +154,6 @@ function initnvmenv() {
 
 function f() { feh_browser.sh "$1" -FZd&; }
 
-
 # setopt autocd
 # unsetopt beep
 
@@ -226,8 +225,8 @@ if ! zgen saved; then
 fi
 
 # bindkey -e
-bindkey '^[OA' history-substring-search-up
-bindkey '^[OB' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
 
 # antibody
 # source <(antibody init)
